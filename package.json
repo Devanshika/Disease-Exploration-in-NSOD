@@ -1,0 +1,23 @@
+{
+	"name": "Disease Exploration in NSOD",
+	"description": "Creates different view points to explore different diseases in Nova Scotia Open Data",
+	"version": "1.0.0",
+	"author": {
+		"name": "Devanshika Ghosh",
+		"email": "devanshika4@gmail.com"
+	},
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"rdf-parse": "1.7.0"
+		
+	},
+	"engines": {
+		"node": ">= 12.13.1"
+	},
+	"files": [
+		"app.js"
+	]
+}
