@@ -11,8 +11,9 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
-		"rdf-parse": "1.7.0"
-		
+		"fs": "0.0.1-security",
+		"n3": "^1.8.0",
+		"rdf-parse": "^1.7.0"
 	},
 	"engines": {
 		"node": ">= 12.13.1"
