@@ -74,7 +74,7 @@ store.import(quadStream)
             }
 
             
-            data = { "nodes": [], "links": [] };
+            data = { "nodes": [], "links": [], "ontologylist" :ontologyList };
             nodeList = [];
             for (i = 0; i < allQuads.length; i++) {
                 subjectval = allQuads[i].subject.value;
