@@ -1,128 +1,78 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Devanshika Ghosh">
+  <title>Disease Exploration in Nova Scotia Open Data</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+  <!-- Bootstrap core CSS -->
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="dashboard.css" rel="stylesheet">
 </head>
-
 <body>
-    <svg width="2000" height="1000"></svg>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script>
-        drag = simulation => {
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Disease Exploration- Nova Scotia Open Data</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </header>
 
-            function dragstarted(event) {
-                if (!event.active) simulation.alphaTarget(0.3).restart();
-                event.subject.fx = event.subject.x;
-                event.subject.fy = event.subject.y;
-            }
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-            function dragged(event) {
-                event.subject.fx = event.x;
-                event.subject.fy = event.y;
-            }
-
-            function dragended(event) {
-                if (!event.active) simulation.alphaTarget(0);
-                event.subject.fx = null;
-                event.subject.fy = null;
-            }
-
-            return d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended);
-        }
-        fetch("/clicked", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: ""
-        })
-            .then(response => response.json())
-            .then(function (response) {
-                if (response.ok) {
-                    data = response.data;
-                    var svg = d3.select("svg"),
-                        width = +svg.attr("width"),
-                        height = +svg.attr("height");
-
-                    var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-                    var simulation = d3.forceSimulation()
-                        .force("link", d3.forceLink().id(d => d.id))
-                        .force("charge", d3.forceManyBody())
-                        .force("center", d3.forceCenter(width / 2, height / 2));
-
-                    var link = svg.append("g")
-                        .attr("stroke", "#999")
-                        .attr("stroke-opacity", 0.6)
-                        .selectAll("line")
-                        .data(data.links)
-                        .enter().append("line")
-                        .attr("stroke-width", d => Math.sqrt(d.value));
-
-                    var node = svg.append("g")
-                        .attr("stroke", "#fff")
-                        .attr("stroke-width", 1.5)
-                        .selectAll("g")
-                        .data(data.nodes)
-                        .enter().append("g");
-
-                    var circles = node.append("circle")
-                        .attr("r", 5)
-                        .attr("fill", function (d) { return color(d.group); })
-                        .call(drag(simulation));
-
-                    node.append("title")
-                        .text(d => d.id);
-
-                    simulation
-                        .nodes(data.nodes)
-                        .on("tick", ticked);
-
-                    simulation.force("link")
-                        .links(data.links);
-
-                    function ticked() {
-                        link
-                            .attr("x1", function (d) { return d.source.x; })
-                            .attr("y1", function (d) { return d.source.y; })
-                            .attr("x2", function (d) { return d.target.x; })
-                            .attr("y2", function (d) { return d.target.y; });
-
-                        node
-                            .attr("transform", function (d) {
-                                return "translate(" + d.x + "," + d.y + ")";
-                            })
-                    }
-                    var legend = svg.selectAll(".legend")
-                        .data(color.domain())
-                        .enter().append("g")
-                        .attr("class", "legend")
-                        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
-
-                    legend.append("rect")
-                        .attr("x", width - 18)
-                        .attr("width", 18)
-                        .attr("height", 18)
-                        .style("fill", color);
-
-                    legend.append("text")
-                        .data(data.ontologylist)
-                        .attr("x", width - 24)
-                        .attr("y", 9)
-                        .attr("dy", ".35em")
-                        .style("text-anchor", "end")
-                        .text(function (d) { return d; });
-                }
-                // throw new Error('Request failed.');
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    </script>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Knowledge Graph</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            Dropdown1
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            Dropdown2
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            Dropdown3
+          </button>
+        </div>
+        </div>
+        <svg class="my-4 w-100" id="force-directed-graph" width="1200" height="500"></svg>
+      </main>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="fdgraph.js"></script>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
-
-
 </html>
