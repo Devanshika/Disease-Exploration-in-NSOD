@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,6 +30,7 @@
   <!-- Custom styles for this template -->
   <link href="dashboard.css" rel="stylesheet">
 </head>
+
 <body>
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Disease Exploration- Nova Scotia Open Data</a>
@@ -51,28 +53,35 @@
       </nav>
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Knowledge Graph</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            Dropdown1
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            Dropdown2
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            Dropdown3
-          </button>
-        </div>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              Dropdown1
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              Dropdown2
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              Dropdown3
+            </button>
+          </div>
         </div>
         <svg class="my-4 w-100" id="force-directed-graph" width="1200" height="500"></svg>
+        <!-- <p id="debug" class="my-4 w-100"></p> -->
       </main>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+    crossorigin="anonymous"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>
-  <script src="fdgraph.js"></script>
+  <script src="kgraph.js"></script>
   <!-- JavaScript Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
