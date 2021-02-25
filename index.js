@@ -108,6 +108,9 @@ store.import(quadStream)
             /**
              * Routes Definitions
              */
+
+            app.use(express.static(__dirname + '/Express'));
+             
             app.get("/", (req, res) => {
                 res.status(200).sendFile(path.join(__dirname+'/Express/index.html'));    
                       
