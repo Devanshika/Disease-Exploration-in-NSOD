@@ -17,7 +17,7 @@ const port = process.env.PORT || "8000";
 const fs = require("fs")
 const rdfParser = require("rdf-parse").default;
 const N3 = require('n3');
-d3 = require("d3")
+
 
 const store = new N3.Store();
 const quadStream = rdfParser.parse(fs.createReadStream('C:\\Users\\devan\\Downloads\\output_file.ttl'),

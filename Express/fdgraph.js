@@ -38,6 +38,7 @@ fetch("/clicked", {
             var svg = d3.select("svg"),
                 width = +svg.attr("width"),
                 height = +svg.attr("height");
+                radius=6;
 
             var color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -82,12 +83,16 @@ fetch("/clicked", {
                     .attr("y1", function (d) { return d.source.y; })
                     .attr("x2", function (d) { return d.target.x; })
                     .attr("y2", function (d) { return d.target.y; });
-
-                node
-                    .attr("transform", function (d) {
-                        return "translate(" + d.x + "," + d.y + ")";
-                    })
-            }
+                    
+                 node.attr("transform", function (d) {
+                    d.x = Math.max(radius, Math.min(width - radius, d.x));
+                    d.y = Math.max(radius, Math.min(height - radius, d.y));
+                         return "translate(" + d.x + "," + d.y + ")";
+             })
+         
+                
+           
+            }                   
             var legend = svg.selectAll(".legend")
                 .data(color.domain())
                 .enter().append("g")
