@@ -19,6 +19,18 @@ const rdfParser = require("rdf-parse").default;
 const N3 = require('n3');
 const store = new N3.Store();
 
+function getDataset(subjectVal, objectVal) {
+    if (subjectVal.indexOf("dataset-") >= 0) {
+        return subjectVal.substring(subjectVal.lastIndexOf("-") + 1);
+    }
+    else if (objectVal.indexOf("dataset-") >= 0) {
+        return objectVal.substring(objectVal.lastIndexOf("-") + 1);
+    }
+    else {
+        return "";
+    }
+}
+
 launch_application = function () {
     allQuads = store.getQuads(null, null, null);
     ontologyList = [];
@@ -32,7 +44,10 @@ launch_application = function () {
         objectval = allQuads[i].object.value;
         predicateval = allQuads[i].predicate.value;
         if (!(subjectval in joinednodes)) {
-            joinednodes[subjectval] = { "id": subjectval, "relationships": [], "group": "" }
+            joinednodes[subjectval] = { "id": subjectval, "relationships": [], "group": "", "dataset": "" }
+        }
+        if (joinednodes[subjectval].dataset == "") {
+            joinednodes[subjectval].dataset = getDataset(subjectval, objectval);
         }
         joinednodes[subjectval].relationships.push({ "Predicate": predicateval, "Object": objectval })
         subjedited = ""
@@ -66,10 +81,17 @@ launch_application = function () {
         if (objectval.indexOf("http") >= 0) {
             objedited = ""
             if (!(objectval in joinednodes)) {
-                joinednodes[objectval] = { "id": objectval, "relationships": [], "group": "" }
+                joinednodes[objectval] = { "id": objectval, "relationships": [], "group": "", "dataset": "" }
+            }
+            if (joinednodes[objectval].dataset == "") {
+                joinednodes[objectval].dataset = getDataset(subjectval, objectval);
             }
             joinednodes[objectval].relationships.push({ "Predicate": predicateval, "Subject": subjectval })
-            links.push({ "source": subjectval, "target": objectval, "value": 1 });
+            value = 45;
+            if (objectval.indexOf("dataset-") >= 0 || subjectval.indexOf("dataset-") >= 0) {
+                value = 20;
+            }
+            links.push({ "source": subjectval, "target": objectval, "value": value});
             pos = objectval.indexOf("#");
             if (pos >= 0) {
                 if (predicateval.indexOf("measure") >= 0) //measure
@@ -79,7 +101,7 @@ launch_application = function () {
                         measureList.push(measureVal);
                     }
                 }
-                if (predicateval.indexOf("dimension") >= 0) //dimension
+                if (predicateval.indexOf("dimension") >= 0 && subjectval.indexOf("dsd-disease") >= 0) //dimension
                 {
                     dimensionVal = objectval.substring(pos + 1)
                     if (dimensionList.indexOf(dimensionVal) < 0) {
