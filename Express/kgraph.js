@@ -23,8 +23,9 @@ drag = simulation => {
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
+
 radius = 6;
-var colorScheme = ["#906500",
+var colorSchemeDataSource = ["#906500",
     "#0248ce",
     "#74cb00",
     "#cc00c0",
@@ -51,7 +52,54 @@ var colorScheme = ["#906500",
     "#005255"
 ]
 
-var color = d3.scaleOrdinal(colorScheme);
+var colorSchemeDataset =
+    [
+        "#906500",
+        "#0248ce",
+        "#74cb00",
+        "#cc00c0",
+        "#7effa8",
+        "#f1008b",
+        "#000000"
+    ]
+
+var datasetBtn = document.getElementById("toggleByDataset");
+datasetBtn.disabled = false;
+var datasourceBtn = document.getElementById("toggleByDataSource");
+datasourceBtn.disabled = true;
+
+datasetBtn.addEventListener("click", () => toggleView(true))
+datasourceBtn.addEventListener("click", () => toggleView(false))
+
+function toggleView(byDataset) {
+    if (byDataset) {
+        datasetBtn.disabled = true;
+        datasourceBtn.disabled = false;
+        fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
+            .then(response => response.json())
+            .then(function (response) {
+                if (response.ok) {
+                    createGraph(response.data, true);
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+    else {
+        datasetBtn.disabled = false;
+        datasourceBtn.disabled = true;
+        fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
+            .then(response => response.json())
+            .then(function (response) {
+                if (response.ok) {
+                    createGraph(response.data);
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+}
+
 
 fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
     .then(response => response.json())
@@ -63,18 +111,26 @@ fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/j
         console.log(error);
     });
 
-createGraph = function (data) {
+function distanceCalc(d) {
+    return d.value;
+}
+
+
+
+createGraph = function (data, byDataset = false) {
     // test = {}
     // test["datasets"] = data.datasets
     // test["dimensions"] = data.dimensions
     // test["measures"] = data.measures
     // document.getElementById("debug").innerHTML = "Datasets Dimensions and Measures:-\n"+JSON.stringify(test)
     svg.selectAll("*").remove();
-    color.domain(data.ontologylist)
+    var color = d3.scaleOrdinal(byDataset ? colorSchemeDataset : colorSchemeDataSource);
+    color.domain(byDataset ? data.datasets : data.ontologylist)
+
     var simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id(d => d.id))
-        .force("charge", d3.forceManyBody())
-        .force("center", d3.forceCenter(width / 2, height / 2));
+        .force("link", d3.forceLink().id(d => d.id).distance(distanceCalc))
+        .force("charge", d3.forceManyBody().strength(-30).distanceMax(200))
+        .force("center", d3.forceCenter(width / 3, height / 2));
 
     var link = svg.append("g")
         .attr("stroke", "#999")
@@ -82,7 +138,11 @@ createGraph = function (data) {
         .selectAll("line")
         .data(data.links)
         .enter().append("line")
-        .attr("stroke-width", d => Math.sqrt(d.value));
+        .attr("stroke-width",
+            function (d) {
+                value = d.value > 20 ? 1 : 4;
+                return Math.sqrt(value)
+            });
 
     var node = svg.append("g")
         .attr("stroke", "#fff")
@@ -92,9 +152,15 @@ createGraph = function (data) {
         .enter().append("g");
 
     var circles = node.append("circle")
-        .attr("r", 5)
-        .attr("fill", function (d) { return color(d.group); })
-        .call(drag(simulation));
+        .data(data.nodes)
+        .attr("r", 5);
+    if (byDataset) {
+        circles.attr("fill", function (d) { return color(d.dataset); })
+    }
+    else {
+        circles.attr("fill", function (d) { return color(d.group); })
+    }
+    circles.call(drag(simulation));
 
     node.append("title")
         .text(d => d.id);
@@ -140,3 +206,6 @@ createGraph = function (data) {
         .text(function (d) { return d; });
 
 }
+
+
+
