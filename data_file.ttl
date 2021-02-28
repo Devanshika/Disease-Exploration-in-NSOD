@@ -1,0 +1,4514 @@
+@prefix : <http://www.semanticweb.org/rmidha/ontologies/statistical#> .
+@prefix cube: <http://purl.org/linked-data/cube#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix doid: <http://purl.obolibrary.org/obo/DOID_> .
+@prefix doid1: <http://purl.obolibrary.org/obo/doid/> .
+@prefix geo: <https://www.geonames.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx: <http://purl.org/linked-data/sdmx#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix sdmx-code: <http://purl.org/linked-data/sdmx/2009/code#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+doid1:13258 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "typhoid fever"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:0050338,
+        doid1:104,
+        doid1:4 ;
+    rdfs:comment "A primary bacterial infectious disease that is a communicable systemic illness, has_material_basis_in Salmonella enterica subsp enterica serovar Typhi, which is transmitted_by ingestion of food or water contaminated with the feces of an infected person. The infection has_symptom fever, has_symptom diarrhea, has_symptom prostration, has_symptom headache, has_symptom splenomegaly, has_symptom liver enlargement, has_symptom eruption of rose-colored spots, and has_symptom leukopenia."@en ;
+    rdfs:isDefinedBy <http://www.merriam-webster.com/medlineplus/typhoid%20fever> .
+
+doid1:2043 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "hepatitis B"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:4,
+        doid1:934 ;
+    rdfs:comment "A viral infectious disease that results_in inflammation located_in liver, has_material_basis_in Hepatitis B virus, which is transmitted_by sexual contact, transmitted_by blood transfusions, and transmitted_by fomites like needles or syringes. The infection has_symptom fever, has_symptom fatigue, has_symptom loss of appetite, has_symptom nausea, has_symptom vomiting, has_symptom abdominal pain, has_symptom clay-colored bowel movements, has_symptom joint pain, and has_symptom jaundice."@en ;
+    rdfs:isDefinedBy <http://en.wikipedia.org/wiki/Hepatitis_B#Transmission>,
+        <http://www.cdc.gov/hepatitis/HBV/index.htm>,
+        <http://www.cdc.gov/hepatitis/Resources/Professionals/PDFs/ABCTable.pdf> .
+
+doid1:399 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "tuberculosis"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:0050338,
+        doid1:104,
+        doid1:4 ;
+    rdfs:comment "A primary bacterial infectious disease that is located_in lungs, located_in lymph nodes, located_in pericardium, located_in brain, located_in pleura or located_in gastrointestinal tract, has_material_basis_in Mycobacterium tuberculosis, which is transmitted_by droplets released into the air when an infected person coughs or sneezes."@en ;
+    rdfs:isDefinedBy <http://www.merckmanuals.com/home/sec17/ch193/ch193a.html>,
+        <http://www.uphs.upenn.edu/bugdrug/antibiotic_manual/atstbdx99.pdf> .
+
+doid1:635 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "acquired immunodeficiency syndrome"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    rdfs:comment "A Human immunodeficiency virus infectious disease that results_in reduction in the numbers of CD4-bearing helper T cells below 200 per microliter of blood or 14% of all lymphocytes thereby rendering the subject highly vulnerable to life-threatening infections and cancers, has_material_basis_in Human immunodeficiency virus 1 or has_material_basis_in Human immunodeficiency virus 2, which are transmitted_by sexual contact, transmitted_by transfer of blood, semen, vaginal fluid, pre-ejaculate, or breast milk, transmitted_by congenital method, and transmitted_by contaminated needles. Opportunistic infections are common in people with AIDS."@en ;
+    rdfs:isDefinedBy <http://en.wikipedia.org/wiki/AIDS>,
+        <http://www2.merriam-webster.com/cgi-bin/mwmednlm?book=Medical&va=aids> .
+
+dct:publisher a owl:AnnotationProperty .
+
+cube:AttributeProperty rdfs:subClassOf rdf:Property .
+
+cube:attribute rdfs:domain cube:ComponentSet ;
+    rdfs:range cube:ComponentProperty,
+        rdf:Property .
+
+cube:codeList rdfs:domain cube:ComponentProperty,
+        rdf:Property .
+
+cube:component rdfs:domain cube:ComponentSet ;
+    rdfs:range cube:ComponentSet .
+
+cube:componentAttachment rdfs:domain cube:ComponentSet ;
+    rdfs:range rdfs:Resource .
+
+cube:componentProperty rdfs:range rdf:Property .
+
+cube:componentRequired rdfs:domain cube:ComponentSet .
+
+cube:concept rdfs:domain rdf:Property .
+
+cube:dimension rdfs:domain cube:ComponentSet ;
+    rdfs:range cube:CodedProperty,
+        cube:ComponentProperty,
+        rdf:Property .
+
+cube:hierarchyRoot rdfs:domain [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ] .
+
+cube:measure rdfs:domain cube:ComponentSet ;
+    rdfs:range cube:ComponentProperty,
+        rdf:Property .
+
+cube:measureDimension rdfs:domain cube:ComponentSet ;
+    rdfs:range cube:CodedProperty,
+        cube:ComponentProperty,
+        rdf:Property .
+
+cube:measureType a cube:CodedProperty,
+        cube:ComponentProperty ;
+    rdfs:range cube:ComponentProperty,
+        rdf:Property .
+
+cube:observation rdfs:range <http://purl.org/NET/scovo#Item>,
+        cube:Attachable .
+
+cube:order rdfs:domain cube:ComponentSet .
+
+cube:parentChildProperty rdfs:domain [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ] .
+
+cube:slice rdfs:domain <http://purl.org/NET/scovo#Dataset>,
+        cube:Attachable ;
+    rdfs:range cube:Attachable,
+        cube:ObservationGroup .
+
+cube:sliceKey rdfs:domain cube:ComponentSet ;
+    rdfs:range cube:ComponentSet .
+
+cube:sliceStructure rdfs:domain cube:Attachable,
+        cube:ObservationGroup ;
+    rdfs:range cube:ComponentSet .
+
+cube:structure rdfs:domain <http://purl.org/NET/scovo#Dataset>,
+        cube:Attachable ;
+    rdfs:range cube:ComponentSet .
+
+sdmx-attribute:obsValue a owl:ObjectProperty .
+
+sdmx-code:sex-F a [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        sdmx-code:Sex,
+        owl:NamedIndividual,
+        skos:Collection,
+        skos:Concept .
+
+sdmx-code:sex-M a [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        sdmx-code:Sex,
+        owl:NamedIndividual,
+        skos:Collection,
+        skos:Concept .
+
+sdmx-code:sex-N a [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        sdmx-code:Sex,
+        owl:NamedIndividual,
+        skos:Collection,
+        skos:Concept .
+
+sdmx-code:sex-U a [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        sdmx-code:Sex,
+        owl:NamedIndividual,
+        skos:Collection,
+        skos:Concept .
+
+swrla:isRuleEnabled a owl:AnnotationProperty .
+
+<http://www.semanticweb.org/rmidha/ontologies/statistical> a owl:Ontology ;
+    owl:imports <http://purl.org/linked-data/cube>,
+        rdfs: ;
+    owl:versionIRI <http://www.semanticweb.org/rmidha/ontologies/statistical/1.0.0> .
+
+:2005 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2005 ;
+    rdfs:seeAlso <http://dbpedia.org/page/2005> .
+
+:2006 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2006 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2006> .
+
+:2007 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2007 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2007> .
+
+:2008 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2008 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2008> .
+
+:2009 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2009 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2009> .
+
+:Agriculture a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Agriculture"@en .
+
+:Business a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Business"@en .
+
+:BusinessandEconomy a :Theme,
+        owl:NamedIndividual .
+
+:CommunicationsNovaScotia a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Communications Nova Scotia"@en .
+
+:CommunitiesCultureAndHeritage a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Communities, Culture and Heritage"@en .
+
+:CommunityServices a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Community Services"@en .
+
+:EducationandEarlyChildhoodDevelopment a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Education and Early Childhood Development"@en .
+
+:EnergyandMines a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Energy and Mines"@en .
+
+:Environment a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Environment"@en .
+
+:FinanceandTreasuryBoard a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Finance and Treasury Board"@en .
+
+:FisheriesandAquaculture a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Fisheries and Aquaculture"@en .
+
+:GovernmentAdministration a :Theme,
+        owl:NamedIndividual .
+
+:HealthAndWellness a :Department,
+        :Theme,
+        owl:NamedIndividual ;
+    rdfs:label "Health and Wellness" ;
+    rdfs:seeAlso <https://data.novascotia.ca/browse?Detailed-Metadata_Department=Health+and+Wellness> ;
+    skos:narrower :CommunitiesandSocialServices .
+
+:Immigration a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Immigration"@en .
+
+:IntergovernmentalAffairs a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Intergovernmental Affairs"@en .
+
+:Justice a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Justice"@en .
+
+:LabourandAdvancedEducation a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Labour and Advanced Education"@en .
+
+:LandsandForestry a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Lands and Forestry"@en .
+
+:MunicipalAffairsandHousing a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Municipal Affairs and Housing"@en .
+
+:NatureandEnvironment a :Theme,
+        owl:NamedIndividual .
+
+:NovaScotiaLands a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Nova Scotia Lands"@en .
+
+:NovaScotiaOpenData a dc:Agent,
+        owl:NamedIndividual ;
+    rdfs:label "Nova Scotia Open Data"@en ;
+    rdfs:isDefinedBy <https://data.novascotia.ca/> .
+
+:PublicServiceCommission a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Public Service Commission"@en .
+
+:Seniors a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Seniors"@en .
+
+:ServiceNovaScotiaandInternalServices a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Service Nova Scotia and Internal Services"@en .
+
+:TransportationandInfrastructureRenewal a :Department,
+        owl:NamedIndividual ;
+    rdfs:label "Transportation and Infrastructure Renewal"@en .
+
+:department a owl:AnnotationProperty .
+
+:obs-AcquiredImmuneDeficiencySyndrome-1 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "13"^^<int> ;
+    :rateper100kpopulation "1.4"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-10 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-11 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-12 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-2 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-3 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-4 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-5 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-6 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-7 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-8 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-AcquiredImmuneDeficiencySyndrome-9 a cube:Observation ;
+    cube:dataSet :dataset-AcquiredImmuneDeficiencySyndrome ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:635,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Botulism-1 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-10 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Botulism-11 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Botulism-12 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Botulism-2 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-3 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-4 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-5 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-6 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Botulism-7 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-8 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Botulism-9 a cube:Observation ;
+    cube:dataSet :dataset-Botulism ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11976,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Campylobacteriosis-1 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "125"^^<int> ;
+    :rateper100kpopulation "13.4"^^<float> .
+
+:obs-Campylobacteriosis-10 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "180"^^<int> ;
+    :rateper100kpopulation "19.2"^^<float> .
+
+:obs-Campylobacteriosis-11 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "170"^^<int> ;
+    :rateper100kpopulation "17.9"^^<float> .
+
+:obs-Campylobacteriosis-12 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "155"^^<int> ;
+    :rateper100kpopulation "16.4"^^<float> .
+
+:obs-Campylobacteriosis-2 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "132"^^<int> ;
+    :rateper100kpopulation "14.1"^^<float> .
+
+:obs-Campylobacteriosis-3 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "133"^^<int> ;
+    :rateper100kpopulation "14.2"^^<float> .
+
+:obs-Campylobacteriosis-4 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "159"^^<int> ;
+    :rateper100kpopulation "17.0"^^<float> .
+
+:obs-Campylobacteriosis-5 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "123"^^<int> ;
+    :rateper100kpopulation "13.2"^^<float> .
+
+:obs-Campylobacteriosis-6 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "151"^^<int> ;
+    :rateper100kpopulation "16.2"^^<float> .
+
+:obs-Campylobacteriosis-7 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "185"^^<int> ;
+    :rateper100kpopulation "19.8"^^<float> .
+
+:obs-Campylobacteriosis-8 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "188"^^<int> ;
+    :rateper100kpopulation "19.8"^^<float> .
+
+:obs-Campylobacteriosis-9 a cube:Observation ;
+    cube:dataSet :dataset-Campylobacteriosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:13622,
+        doid:2326,
+        doid:4,
+        doid:7,
+        doid:77 ;
+    :numberofcases "172"^^<int> ;
+    :rateper100kpopulation "18.3"^^<float> .
+
+:obs-Chlamydia-1 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "1762"^^<int> ;
+    :rateper100kpopulation "188.4"^^<float> .
+
+:obs-Chlamydia-10 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2821"^^<int> ;
+    :rateper100kpopulation "299.2"^^<float> .
+
+:obs-Chlamydia-11 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2931"^^<int> ;
+    :rateper100kpopulation "308.7"^^<float> .
+
+:obs-Chlamydia-12 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2988"^^<int> ;
+    :rateper100kpopulation "313.3"^^<float> .
+
+:obs-Chlamydia-2 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "1788"^^<int> ;
+    :rateper100kpopulation "191.4"^^<float> .
+
+:obs-Chlamydia-3 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2033"^^<int> ;
+    :rateper100kpopulation "217.9"^^<float> .
+
+:obs-Chlamydia-4 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "1982"^^<int> ;
+    :rateper100kpopulation "212.5"^^<float> .
+
+:obs-Chlamydia-5 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2230"^^<int> ;
+    :rateper100kpopulation "239.1"^^<float> .
+
+:obs-Chlamydia-6 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2478"^^<int> ;
+    :rateper100kpopulation "265.7"^^<float> .
+
+:obs-Chlamydia-7 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2614"^^<int> ;
+    :rateper100kpopulation "275.5"^^<float> .
+
+:obs-Chlamydia-8 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2466"^^<int> ;
+    :rateper100kpopulation "262.1"^^<float> .
+
+:obs-Chlamydia-9 a cube:Observation ;
+    cube:dataSet :dataset-Chlamydia ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:11263,
+        doid:4 ;
+    :numberofcases "2628"^^<int> ;
+    :rateper100kpopulation "279.9"^^<float> .
+
+:obs-Cryptosporidiosis-1 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "18"^^<int> ;
+    :rateper100kpopulation "1.9"^^<float> .
+
+:obs-Cryptosporidiosis-10 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "32"^^<int> ;
+    :rateper100kpopulation "3.4"^^<float> .
+
+:obs-Cryptosporidiosis-11 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "27"^^<int> ;
+    :rateper100kpopulation "2.8"^^<float> .
+
+:obs-Cryptosporidiosis-12 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "17"^^<int> ;
+    :rateper100kpopulation "1.8"^^<float> .
+
+:obs-Cryptosporidiosis-2 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "9"^^<int> ;
+    :rateper100kpopulation "1.0"^^<float> .
+
+:obs-Cryptosporidiosis-3 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "13"^^<int> ;
+    :rateper100kpopulation "1.4"^^<float> .
+
+:obs-Cryptosporidiosis-4 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "11"^^<int> ;
+    :rateper100kpopulation "1.2"^^<float> .
+
+:obs-Cryptosporidiosis-5 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "10"^^<int> ;
+    :rateper100kpopulation "1.1"^^<float> .
+
+:obs-Cryptosporidiosis-6 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "21"^^<int> ;
+    :rateper100kpopulation "2.3"^^<float> .
+
+:obs-Cryptosporidiosis-7 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "12"^^<int> ;
+    :rateper100kpopulation "1.3"^^<float> .
+
+:obs-Cryptosporidiosis-8 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "18"^^<int> ;
+    :rateper100kpopulation "1.9"^^<float> .
+
+:obs-Cryptosporidiosis-9 a cube:Observation ;
+    cube:dataSet :dataset-Cryptosporidiosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:1398,
+        doid:1733,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "22"^^<int> ;
+    :rateper100kpopulation "2.3"^^<float> .
+
+:obs-Cyclosporiasis-1 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Cyclosporiasis-10 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Cyclosporiasis-11 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Cyclosporiasis-12 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Cyclosporiasis-2 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Cyclosporiasis-3 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Cyclosporiasis-4 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Cyclosporiasis-5 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Cyclosporiasis-6 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Cyclosporiasis-7 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Cyclosporiasis-8 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Cyclosporiasis-9 a cube:Observation ;
+    cube:dataSet :dataset-Cyclosporiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:12750,
+        doid:1398,
+        doid:2113,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Giardiasis-1 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "106"^^<int> ;
+    :rateper100kpopulation "11.3"^^<float> .
+
+:obs-Giardiasis-10 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "100"^^<int> ;
+    :rateper100kpopulation "10.5"^^<float> .
+
+:obs-Giardiasis-11 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "83"^^<int> ;
+    :rateper100kpopulation "8.8"^^<float> .
+
+:obs-Giardiasis-12 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "93"^^<int> ;
+    :rateper100kpopulation "9.7"^^<float> .
+
+:obs-Giardiasis-2 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "74"^^<int> ;
+    :rateper100kpopulation "7.9"^^<float> .
+
+:obs-Giardiasis-3 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "107"^^<int> ;
+    :rateper100kpopulation "11.5"^^<float> .
+
+:obs-Giardiasis-4 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "76"^^<int> ;
+    :rateper100kpopulation "8.1"^^<float> .
+
+:obs-Giardiasis-5 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "68"^^<int> ;
+    :rateper100kpopulation "7.3"^^<float> .
+
+:obs-Giardiasis-6 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "66"^^<int> ;
+    :rateper100kpopulation "7.1"^^<float> .
+
+:obs-Giardiasis-7 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "96"^^<int> ;
+    :rateper100kpopulation "10.1"^^<float> .
+
+:obs-Giardiasis-8 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "96"^^<int> ;
+    :rateper100kpopulation "10.2"^^<float> .
+
+:obs-Giardiasis-9 a cube:Observation ;
+    cube:dataSet :dataset-Giardiasis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:10718,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "90"^^<int> ;
+    :rateper100kpopulation "9.6"^^<float> .
+
+:obs-Gonorrhea-1 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "104"^^<int> ;
+    :rateper100kpopulation "11.1"^^<float> .
+
+:obs-Gonorrhea-10 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "113"^^<int> ;
+    :rateper100kpopulation "12.0"^^<float> .
+
+:obs-Gonorrhea-11 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "202"^^<int> ;
+    :rateper100kpopulation "21.3"^^<float> .
+
+:obs-Gonorrhea-12 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "129"^^<int> ;
+    :rateper100kpopulation "13.7"^^<float> .
+
+:obs-Gonorrhea-2 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "99"^^<int> ;
+    :rateper100kpopulation "10.6"^^<float> .
+
+:obs-Gonorrhea-3 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "72"^^<int> ;
+    :rateper100kpopulation "7.7"^^<float> .
+
+:obs-Gonorrhea-4 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "143"^^<int> ;
+    :rateper100kpopulation "15.3"^^<float> .
+
+:obs-Gonorrhea-5 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "127"^^<int> ;
+    :rateper100kpopulation "13.6"^^<float> .
+
+:obs-Gonorrhea-6 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "100"^^<int> ;
+    :rateper100kpopulation "10.7"^^<float> .
+
+:obs-Gonorrhea-7 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "102"^^<int> ;
+    :rateper100kpopulation "10.9"^^<float> .
+
+:obs-Gonorrhea-8 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "119"^^<int> ;
+    :rateper100kpopulation "12.5"^^<float> .
+
+:obs-Gonorrhea-9 a cube:Observation ;
+    cube:dataSet :dataset-Gonorrhea ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:4,
+        doid:7551 ;
+    :numberofcases "97"^^<int> ;
+    :rateper100kpopulation "10.3"^^<float> .
+
+:obs-HIVAlberta-1 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 1 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2010 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 205 ;
+    :rateper100kpopulation 5.49 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2010"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-2 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 2 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2011 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 224 ;
+    :rateper100kpopulation 5.91 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2011"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-3 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 3 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2012 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 240 ;
+    :rateper100kpopulation 6.19 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2012"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-4 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 4 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2013 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 261 ;
+    :rateper100kpopulation 6.56 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2013"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-5 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 5 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2014 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 283 ;
+    :rateper100kpopulation 6.93 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2014"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-6 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 6 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2015 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 231 ;
+    :rateper100kpopulation 5.51 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2015"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-7 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 7 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2016 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 285 ;
+    :rateper100kpopulation 6.79 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2016"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HIVAlberta-8 a <http://purl.org/NET/scovo#Item>,
+        cube:Attachable,
+        cube:Observation,
+        owl:NamedIndividual ;
+    rdfs:label "Observation 8 of HIV Alberta Dataset"@en ;
+    cube:dataSet :dataset-HIVAlberta ;
+    sdmx-code:sex sdmx-code:sex-T ;
+    sdmx-dimension:refArea <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+    sdmx-dimension:refPeriod :2017 ;
+    :hasdisease doid1:0050117,
+        doid1:4,
+        doid1:526,
+        doid1:934 ;
+    :numberofcases 6.74,
+        286 ;
+    rdfs:comment "The number of cases and rate per 100,000 population of HIV of all genders in Alberta in 2017"@en ;
+    rdfs:seeAlso doid1:526,
+        :dataset-HIVAlberta .
+
+:obs-HepatitisA-1 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-HepatitisA-10 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-HepatitisA-11 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-HepatitisA-12 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-HepatitisA-2 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "18"^^<int> ;
+    :rateper100kpopulation "1.9"^^<float> .
+
+:obs-HepatitisA-3 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-HepatitisA-4 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-HepatitisA-5 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-HepatitisA-6 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-HepatitisA-7 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-HepatitisA-8 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-HepatitisA-9 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisA ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:12549,
+        doid:4,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-HepatitisC-1 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "252"^^<int> ;
+    :rateper100kpopulation "27.0"^^<float> .
+
+:obs-HepatitisC-10 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "295"^^<int> ;
+    :rateper100kpopulation "30.9"^^<float> .
+
+:obs-HepatitisC-11 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "341"^^<int> ;
+    :rateper100kpopulation "36.2"^^<float> .
+
+:obs-HepatitisC-12 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "299"^^<int> ;
+    :rateper100kpopulation "31.5"^^<float> .
+
+:obs-HepatitisC-2 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "224"^^<int> ;
+    :rateper100kpopulation "24.0"^^<float> .
+
+:obs-HepatitisC-3 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "281"^^<int> ;
+    :rateper100kpopulation "30.1"^^<float> .
+
+:obs-HepatitisC-4 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "266"^^<int> ;
+    :rateper100kpopulation "28.5"^^<float> .
+
+:obs-HepatitisC-5 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "299"^^<int> ;
+    :rateper100kpopulation "32.1"^^<float> .
+
+:obs-HepatitisC-6 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "209"^^<int> ;
+    :rateper100kpopulation "22.4"^^<float> .
+
+:obs-HepatitisC-7 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "250"^^<int> ;
+    :rateper100kpopulation "26.4"^^<float> .
+
+:obs-HepatitisC-8 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "288"^^<int> ;
+    :rateper100kpopulation "30.6"^^<float> .
+
+:obs-HepatitisC-9 a cube:Observation ;
+    cube:dataSet :dataset-HepatitisC ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:1883,
+        doid:4,
+        doid:934 ;
+    :numberofcases "323"^^<int> ;
+    :rateper100kpopulation "34.4"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-1 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "23"^^<int> ;
+    :rateper100kpopulation "2.5"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-10 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "17"^^<int> ;
+    :rateper100kpopulation "1.8"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-11 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "15"^^<int> ;
+    :rateper100kpopulation "1.6"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-12 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "19"^^<int> ;
+    :rateper100kpopulation "2"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-2 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "20"^^<int> ;
+    :rateper100kpopulation "2.1"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-3 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "21"^^<int> ;
+    :rateper100kpopulation "2.3"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-4 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "13"^^<int> ;
+    :rateper100kpopulation "1.4"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-5 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "15"^^<int> ;
+    :rateper100kpopulation "1.6"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-6 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "15"^^<int> ;
+    :rateper100kpopulation "1.6"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-7 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "17"^^<int> ;
+    :rateper100kpopulation "1.8"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-8 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "16"^^<int> ;
+    :rateper100kpopulation "1.7"^^<float> .
+
+:obs-HumanImmunodeficiencyVirus-9 a cube:Observation ;
+    cube:dataSet :dataset-HumanImmunodeficiencyVirus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:526,
+        doid:934 ;
+    :numberofcases "10"^^<int> ;
+    :rateper100kpopulation "1.1"^^<float> .
+
+:obs-Legionellosis-1 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Legionellosis-10 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "9"^^<int> ;
+    :rateper100kpopulation "0.9"^^<float> .
+
+:obs-Legionellosis-11 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Legionellosis-12 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "7"^^<int> ;
+    :rateper100kpopulation "0.7"^^<float> .
+
+:obs-Legionellosis-2 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Legionellosis-3 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Legionellosis-4 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Legionellosis-5 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Legionellosis-6 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Legionellosis-7 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Legionellosis-8 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Legionellosis-9 a cube:Observation ;
+    cube:dataSet :dataset-Legionellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:10458,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Malaria-1 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Malaria-10 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Malaria-11 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-Malaria-12 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Malaria-2 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Malaria-3 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-Malaria-4 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Malaria-5 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Malaria-6 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-Malaria-7 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Malaria-8 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Malaria-9 a cube:Observation ;
+    cube:dataSet :dataset-Malaria ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:12365,
+        doid:1398,
+        doid:2789,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Mumps-1 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Mumps-10 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Mumps-11 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Mumps-12 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "21"^^<int> ;
+    :rateper100kpopulation "2.2"^^<float> .
+
+:obs-Mumps-2 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "595"^^<int> ;
+    :rateper100kpopulation "63.7"^^<float> .
+
+:obs-Mumps-3 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-Mumps-4 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Mumps-5 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Mumps-6 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Mumps-7 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Mumps-8 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Mumps-9 a cube:Observation ;
+    cube:dataSet :dataset-Mumps ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:10264,
+        doid:4,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Pertussis-1 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "25"^^<int> ;
+    :rateper100kpopulation "2.7"^^<float> .
+
+:obs-Pertussis-10 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "11"^^<int> ;
+    :rateper100kpopulation "1.2"^^<float> .
+
+:obs-Pertussis-11 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "110"^^<int> ;
+    :rateper100kpopulation "11.7"^^<float> .
+
+:obs-Pertussis-12 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "63"^^<int> ;
+    :rateper100kpopulation "6.6"^^<float> .
+
+:obs-Pertussis-2 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "48"^^<int> ;
+    :rateper100kpopulation "5.1"^^<float> .
+
+:obs-Pertussis-3 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "33"^^<int> ;
+    :rateper100kpopulation "3.5"^^<float> .
+
+:obs-Pertussis-4 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "14"^^<int> ;
+    :rateper100kpopulation "1.5"^^<float> .
+
+:obs-Pertussis-5 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "18"^^<int> ;
+    :rateper100kpopulation "1.9"^^<float> .
+
+:obs-Pertussis-6 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Pertussis-7 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Pertussis-8 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "22"^^<int> ;
+    :rateper100kpopulation "2.3"^^<float> .
+
+:obs-Pertussis-9 a cube:Observation ;
+    cube:dataSet :dataset-Pertussis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050339,
+        doid:104,
+        doid:1116,
+        doid:4 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-Rubella-1 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Rubella-10 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Rubella-11 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Rubella-12 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Rubella-2 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-3 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-4 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-5 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-6 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-7 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-8 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Rubella-9 a cube:Observation ;
+    cube:dataSet :dataset-Rubella ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:4,
+        doid:8781,
+        doid:934 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Salmonellosis-1 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "108"^^<int> ;
+    :rateper100kpopulation "11.6"^^<float> .
+
+:obs-Salmonellosis-10 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "168"^^<int> ;
+    :rateper100kpopulation "17.8"^^<float> .
+
+:obs-Salmonellosis-11 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "139"^^<int> ;
+    :rateper100kpopulation "14.6"^^<float> .
+
+:obs-Salmonellosis-12 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "171"^^<int> ;
+    :rateper100kpopulation "17.9"^^<float> .
+
+:obs-Salmonellosis-2 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "121"^^<int> ;
+    :rateper100kpopulation "13.0"^^<float> .
+
+:obs-Salmonellosis-3 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "137"^^<int> ;
+    :rateper100kpopulation "14.7"^^<float> .
+
+:obs-Salmonellosis-4 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "94"^^<int> ;
+    :rateper100kpopulation "10.1"^^<float> .
+
+:obs-Salmonellosis-5 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "145"^^<int> ;
+    :rateper100kpopulation "15.5"^^<float> .
+
+:obs-Salmonellosis-6 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "170"^^<int> ;
+    :rateper100kpopulation "18.2"^^<float> .
+
+:obs-Salmonellosis-7 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "150"^^<int> ;
+    :rateper100kpopulation "15.8"^^<float> .
+
+:obs-Salmonellosis-8 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "169"^^<int> ;
+    :rateper100kpopulation "18.0"^^<float> .
+
+:obs-Salmonellosis-9 a cube:Observation ;
+    cube:dataSet :dataset-Salmonellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:0060859,
+        doid:104,
+        doid:4 ;
+    :numberofcases "204"^^<int> ;
+    :rateper100kpopulation "21.7"^^<float> .
+
+:obs-Shigellosis-1 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2005> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "19"^^<int> ;
+    :rateper100kpopulation "2.0"^^<float> .
+
+:obs-Shigellosis-10 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "9"^^<int> ;
+    :rateper100kpopulation "1.0"^^<float> .
+
+:obs-Shigellosis-11 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "5"^^<int> ;
+    :rateper100kpopulation "0.5"^^<float> .
+
+:obs-Shigellosis-12 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "10"^^<int> ;
+    :rateper100kpopulation "1.1"^^<float> .
+
+:obs-Shigellosis-2 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Shigellosis-3 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Shigellosis-4 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-Shigellosis-5 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "11"^^<int> ;
+    :rateper100kpopulation "1.2"^^<float> .
+
+:obs-Shigellosis-6 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "11"^^<int> ;
+    :rateper100kpopulation "1.2"^^<float> .
+
+:obs-Shigellosis-7 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "13"^^<int> ;
+    :rateper100kpopulation "1.4"^^<float> .
+
+:obs-Shigellosis-8 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "11"^^<int> ;
+    :rateper100kpopulation "1.2"^^<float> .
+
+:obs-Shigellosis-9 a cube:Observation ;
+    cube:dataSet :dataset-Shigellosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:12385,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Tetanus-1 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-10 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Tetanus-11 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Tetanus-12 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Tetanus-2 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-3 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-4 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-5 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-6 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-7 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Tetanus-8 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tetanus-9 a cube:Observation ;
+    cube:dataSet :dataset-Tetanus ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:11338,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Tuberculosis-1 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "10"^^<int> ;
+    :rateper100kpopulation "1.1"^^<float> .
+
+:obs-Tuberculosis-10 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "8"^^<int> ;
+    :rateper100kpopulation "0.8"^^<float> .
+
+:obs-Tuberculosis-11 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Tuberculosis-12 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "6"^^<int> ;
+    :rateper100kpopulation "0.6"^^<float> .
+
+:obs-Tuberculosis-2 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "8"^^<int> ;
+    :rateper100kpopulation "0.9"^^<float> .
+
+:obs-Tuberculosis-3 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "4"^^<int> ;
+    :rateper100kpopulation "0.4"^^<float> .
+
+:obs-Tuberculosis-4 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "7"^^<int> ;
+    :rateper100kpopulation "0.8"^^<float> .
+
+:obs-Tuberculosis-5 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "10"^^<int> ;
+    :rateper100kpopulation "1.1"^^<float> .
+
+:obs-Tuberculosis-6 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "9"^^<int> ;
+    :rateper100kpopulation "1.0"^^<float> .
+
+:obs-Tuberculosis-7 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "8"^^<int> ;
+    :rateper100kpopulation "0.8"^^<float> .
+
+:obs-Tuberculosis-8 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "8"^^<int> ;
+    :rateper100kpopulation "0.9"^^<float> .
+
+:obs-Tuberculosis-9 a cube:Observation ;
+    cube:dataSet :dataset-Tuberculosis ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:399,
+        doid:4 ;
+    :numberofcases "7"^^<int> ;
+    :rateper100kpopulation "0.7"^^<float> .
+
+:obs-Typhoid-1 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2006> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Typhoid-10 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2015> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0"^^<float> .
+
+:obs-Typhoid-11 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2016> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Typhoid-12 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2017> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+:obs-Typhoid-2 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2007> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Typhoid-3 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2008> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Typhoid-4 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2009> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Typhoid-5 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2010> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "3"^^<int> ;
+    :rateper100kpopulation "0.3"^^<float> .
+
+:obs-Typhoid-6 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2011> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Typhoid-7 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2012> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "0"^^<int> ;
+    :rateper100kpopulation "0.0"^^<float> .
+
+:obs-Typhoid-8 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2013> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "1"^^<int> ;
+    :rateper100kpopulation "0.1"^^<float> .
+
+:obs-Typhoid-9 a cube:Observation ;
+    cube:dataSet :dataset-Typhoid ;
+    sdmx:sex sdmx:sex-T ;
+    sdmx-dimension:refArea geo:6091530 ;
+    sdmx-dimension:refPeriod <https://dbpedia.org/page/2014> ;
+    :hasdisease doid:0050117,
+        doid:0050338,
+        doid:104,
+        doid:13258,
+        doid:4 ;
+    :numberofcases "2"^^<int> ;
+    :rateper100kpopulation "0.2"^^<float> .
+
+rdf:type a owl:AnnotationProperty .
+
+rdfs:domain rdfs:range rdfs:Resource .
+
+rdfs:range rdfs:range rdfs:Resource .
+
+rdfs:subClassOf rdfs:domain rdfs:Resource ;
+    rdfs:range rdfs:Resource .
+
+xsd:date a rdfs:Datatype .
+
+skos:narrower a owl:ObjectProperty .
+
+dcat:keyword a owl:AnnotationProperty .
+
+dcat:theme a owl:AnnotationProperty .
+
+dc:Agent a owl:Class .
+
+cube:dataSet rdfs:domain <http://purl.org/NET/scovo#Item>,
+        cube:Attachable ;
+    rdfs:range <http://purl.org/NET/scovo#Dataset>,
+        cube:Attachable .
+
+sdmx:CodeList a owl:Class ;
+    rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        skos:ConceptScheme .
+
+:2010 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2010 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2010> .
+
+:2011 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2011 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2011> .
+
+:2012 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2012 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2012> .
+
+:2013 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2013 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2013> .
+
+:2014 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2014 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2014> .
+
+:2015 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2015 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2015> .
+
+:2016 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2016 ;
+    rdfs:isDefinedBy <https://dbpedia.org/page/2016> .
+
+:CommunitiesandSocialServices a :Theme,
+        owl:NamedIndividual ;
+    rdfs:label "Communities and Social Services"@en .
+
+rdfs:Datatype rdfs:subClassOf rdfs:Resource .
+
+doid1:0050338 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "primary bacterial infectious disease"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:104,
+        doid1:4 ;
+    rdfs:comment "A bacterial infectious disease that results_in infection by bacteria as a result of their presence or activity within the normal, healthy host, and their intrinsic virulence is, in part, a necessary consequence of their need to reproduce and spread."@en ;
+    rdfs:isDefinedBy <http://en.wikipedia.org/wiki/Infectious_disease> .
+
+cube:MeasureProperty rdfs:subClassOf rdf:Property .
+
+:2017 a rdfs:Literal,
+        rdfs:Resource,
+        owl:NamedIndividual ;
+    rdfs:label 2017 ;
+    rdfs:seeAlso <https://dbpedia.org/page/2017> .
+
+:rateper100kpopulation a cube:ComponentProperty,
+        cube:MeasureProperty,
+        owl:DatatypeProperty,
+        owl:NamedIndividual .
+
+<http://www.w3.org/2003/01/geo/wgs84_pos#6091530> a rdfs:Resource,
+        owl:NamedIndividual,
+        <http://www.w3.org/2003/01/geo/wgs84_pos#Feature> ;
+    rdfs:label "Nova Scotia"@en ;
+    rdfs:isDefinedBy <https://sws.geonames.org/6091530/about.rdf> ;
+    rdfs:seeAlso <https://dbpedia.org/resource/Nova_Scotia> .
+
+<http://www.w3.org/2003/01/geo/wgs84_pos#Feature> a owl:Class .
+
+sdmx-dimension:refPeriod a cube:CodedProperty,
+        cube:ComponentProperty,
+        cube:DimensionProperty,
+        owl:NamedIndividual,
+        owl:ObjectProperty ;
+    rdfs:comment "The period of time or point in time to which the measured observation is intended to refer."@en ;
+    rdfs:isDefinedBy "https://sdmx.org/wp-content/uploads/01_sdmx_cog_annex_1_cdc_2009.pdf"@en ;
+    rdfs:range rdfs:Resource ;
+    rdfs:seeAlso "Reference Period"@en .
+
+:Keyword a owl:Class ;
+    rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        skos:Concept,
+        skos:ConceptScheme .
+
+doid1:104 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "bacterial infectious disease"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:4 ;
+    rdfs:comment "A disease by infectious agent that results_in infection, has_material_basis_in Bacteria."@en ;
+    rdfs:isDefinedBy <http://en.wikipedia.org/wiki/Pathogenic_bacteria> .
+
+doid1:is_a a owl:ObjectProperty .
+
+cube:DimensionProperty rdfs:subClassOf rdf:Property .
+
+:y a swrl:Variable .
+
+:z a swrl:Variable .
+
+<http://purl.org/NET/scovo#Dataset> rdfs:subClassOf cube:Attachable,
+        cube:DataSet .
+
+sdmx-code:sex a [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        cube:CodedProperty,
+        cube:ComponentProperty,
+        cube:DimensionProperty,
+        sdmx:CodeList,
+        owl:NamedIndividual,
+        owl:ObjectProperty,
+        skos:ConceptScheme ;
+    rdfs:comment "This  code list provides the gender."@en ;
+    rdfs:isDefinedBy "Code list for Sex (SEX) - codelist scheme"@en,
+        "http://sdmx.org/wp-content/uploads/2009/01/02_sdmx_cog_annex_2_cl_2009.pdf"@en ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        sdmx-code:Sex,
+        skos:Collection,
+        skos:Concept ;
+    rdfs:seeAlso sdmx-code:Sex,
+        sdmx-code:sex .
+
+sdmx-dimension:refArea a cube:CodedProperty,
+        cube:ComponentProperty,
+        cube:DimensionProperty,
+        owl:NamedIndividual,
+        owl:ObjectProperty ;
+    rdfs:label "Reference Area"@en ;
+    rdfs:comment "The country or geographic area to which the measured statistical phenomenon relates."@en ;
+    rdfs:isDefinedBy "https://sdmx.org/wp-content/uploads/01_sdmx_cog_annex_1_cdc_2009.pdf"@en ;
+    rdfs:range rdfs:Resource .
+
+:Theme a owl:Class ;
+    rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        skos:Concept,
+        skos:ConceptScheme .
+
+:numberofcases a cube:ComponentProperty,
+        cube:MeasureProperty,
+        owl:DatatypeProperty,
+        owl:NamedIndividual .
+
+:n a swrl:Variable .
+
+cube:CodedProperty rdfs:subClassOf rdf:Property .
+
+sdmx-code:Sex a owl:Class ;
+    rdfs:label "Code list for Sex (SEX) - codelist class"@en ;
+    rdfs:comment "This  code list provides the gender."@en ;
+    rdfs:seeAlso sdmx-code:sex ;
+    rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        skos:Collection,
+        skos:Concept .
+
+sdmx-code:sex-T a [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        sdmx-code:Sex,
+        owl:NamedIndividual,
+        skos:Collection,
+        skos:Concept .
+
+:hasdisease a cube:CodedProperty,
+        cube:ComponentProperty,
+        cube:DimensionProperty,
+        owl:NamedIndividual,
+        owl:ObjectProperty ;
+    rdfs:label "Has Disease"@en ;
+    rdfs:range doid1:4 ;
+    rdfs:seeAlso :hasdisease .
+
+<http://www.w3.org/2003/01/geo/wgs84_pos#5883102> a rdfs:Resource,
+        owl:NamedIndividual,
+        <http://www.w3.org/2003/01/geo/wgs84_pos#Feature> ;
+    rdfs:label "Alberta"@en ;
+    rdfs:isDefinedBy <https://sws.geonames.org/5883102/about.rdf> ;
+    rdfs:seeAlso <https://dbpedia.org/resource/Alberta> .
+
+doid1:934 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "viral infectious disease"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:4 ;
+    rdfs:comment "A disease by infectious agent that results in infection, has_material_basis_in Viruses."@en ;
+    rdfs:isDefinedBy <http://www.merck.com/mmhe/sec17/ch198/ch198a.html> .
+
+<http://purl.org/NET/scovo#Item> rdfs:subClassOf cube:Attachable,
+        cube:Observation .
+
+:dataset-AcquiredImmuneDeficiencySyndrome a cube:DataSet ;
+    rdfs:label "AcquiredImmuneDeficiencySyndrome"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/AcquiredImmuneDeficiencySyndrome/naay-xy8i" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Botulism a cube:DataSet ;
+    rdfs:label "Botulism"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Botulism/4vij-qbup" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Campylobacteriosis a cube:DataSet ;
+    rdfs:label "Campylobacteriosis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Campylobacteriosis/nn2f-jgv4" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Chlamydia a cube:DataSet ;
+    rdfs:label "Chlamydia"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Chlamydia/sps3-eq7e" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Cryptosporidiosis a cube:DataSet ;
+    rdfs:label "Cryptosporidiosis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Cryptosporidiosis/9ckr-t936" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Cyclosporiasis a cube:DataSet ;
+    rdfs:label "Cyclosporiasis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Cyclosporiasis/enig-mjwt" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Giardiasis a cube:DataSet ;
+    rdfs:label "Giardiasis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Giardiasis/dxhy-v63n" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Gonorrhea a cube:DataSet ;
+    rdfs:label "Gonorrhea"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Gonorrhea/qsy8-u73r" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-HepatitisA a cube:DataSet ;
+    rdfs:label "HepatitisA"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/HepatitisA/r9i7-qnuh" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-HepatitisC a cube:DataSet ;
+    rdfs:label "HepatitisC"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/HepatitisC/w7bm-jav4" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-HumanImmunodeficiencyVirus a cube:DataSet ;
+    rdfs:label "HumanImmunodeficiencyVirus"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/HumanImmunodeficiencyVirus/tsr3-8hh2" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Legionellosis a cube:DataSet ;
+    rdfs:label "Legionellosis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Legionellosis/fbx9-xzkq" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Malaria a cube:DataSet ;
+    rdfs:label "Malaria"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Malaria/4p4c-dv5x" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Mumps a cube:DataSet ;
+    rdfs:label "Mumps"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Mumps/e2eh-63yz" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Pertussis a cube:DataSet ;
+    rdfs:label "Pertussis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Pertussis/5itt-58m2" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Rubella a cube:DataSet ;
+    rdfs:label "Rubella"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Rubella/5mqu-g4g2" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Salmonellosis a cube:DataSet ;
+    rdfs:label "Salmonellosis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Salmonellosis/5kjg-qidk" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Shigellosis a cube:DataSet ;
+    rdfs:label "Shigellosis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Shigellosis/s4zv-fef7" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Tetanus a cube:DataSet ;
+    rdfs:label "Tetanus"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Tetanus/sr7h-uyxt" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Tuberculosis a cube:DataSet ;
+    rdfs:label "Tuberculosis"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Tuberculosis/48h6-dubm" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+:dataset-Typhoid a cube:DataSet ;
+    rdfs:label "Typhoid"^^<str> ;
+    dct:accrualPeriodicity <http://purl.org/cld/freq/annual> ;
+    dct:language <http://www.lexvo.org/page/iso639-3/eng> ;
+    dct:license <https://novascotia.ca/opendata/licence.asp> ;
+    dct:spatial geo:6091530 ;
+    cube:structure :dsd-diseasedatasets ;
+    :department :HealthandWellness ;
+    rdfs:comment "Overall counts and rates (per 100,000 population) of notifiable diseases reported in Nova Scotia for 2005-2016."^^<str> ;
+    rdfs:isDefinedBy "https://data.novascotia.ca/Health-and-Wellness/Typhoid/p42z-mdp9" ;
+    dcat:keyword :communicabledisease,
+        :notifiabledisease,
+        :publichealth ;
+    dcat:theme :HealthandWellness .
+
+doid1:0050117 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "disease by infectious agent"@en ;
+    doid1:is_a doid1:4 ;
+    rdfs:comment "A disease that is the consequence of the presence of pathogenic microbial agents, including pathogenic viruses, pathogenic bacteria, fungi, protozoa, multicellular parasites, and aberrant proteins known as prions."@en ;
+    rdfs:isDefinedBy <http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=14.10d&code=C26726> .
+
+cube:HierarchicalCodeList rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ] .
+
+:dataset-HIVAlberta a <http://purl.org/NET/scovo#Dataset>,
+        cube:Attachable,
+        cube:DataSet,
+        owl:NamedIndividual ;
+    rdfs:label "Human Immunodeficeincy Virus Alberta Dataset"@en ;
+    cube:structure :dsd-diseasedatasets ;
+    rdfs:comment "Age-sex Specific Incidence Rates for HIV for Alberta expressed as per 100,000 population."@en ;
+    rdfs:isDefinedBy <https://open.alberta.ca/opendata/infectious-disease-human-immunodeficiency-virus-hiv-incidence-rate> .
+
+:x a swrl:Variable .
+
+doid1:526 a doid1:4,
+        owl:NamedIndividual ;
+    rdfs:label "human immunodeficiency virus infectious disease"@en ;
+    doid1:is_a doid1:0050117,
+        doid1:4,
+        doid1:934 ;
+    rdfs:comment "A viral infectious disease that results in destruction of immune system, leading to life-threatening opportunistic infections and cancers, has_material_basis_in Human immunodeficiency virus 1 or has_material_basis_in Human immunodeficiency virus 2, which are transmitted by sexual contact, transmitted by transfer of blood, semen, vaginal fluid, pre-ejaculate, or breast milk, transmitted by congenital method, and transmitted by contaminated needles. The virus infects helper T cells (CD4+ T cells) which are directly or indirectly destroyed, macrophages, and dendritic cells. The infection has symptom diarrhea, has symptom fatigue, has symptom fever, has symptom vaginal yeast infection, has symptom headache, has symptom mouth sores, has symptom muscle aches, has symptom sore throat, and has symptom swollen lymph glands."@en ;
+    rdfs:isDefinedBy <http://en.wikipedia.org/wiki/HIV>,
+        <http://www.nlm.nih.gov/medlineplus/ency/article/000602.htm> .
+
+:communicabledisease a :Keyword,
+        owl:NamedIndividual ;
+    rdfs:label "communicable disease"@en ;
+    rdfs:seeAlso <https://data.novascotia.ca/browse?tags=communicable%20disease> .
+
+:notifiabledisease a :Keyword,
+        owl:NamedIndividual ;
+    rdfs:label "notifiable disease"@en ;
+    rdfs:seeAlso <https://data.novascotia.ca/browse?tags=notifiable%20disease> .
+
+:publichealth a :Keyword,
+        owl:NamedIndividual ;
+    rdfs:label "public health"@en ;
+    rdfs:seeAlso <https://data.novascotia.ca/browse?tags=public%20health> .
+
+:Department a owl:Class ;
+    rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ],
+        skos:Concept,
+        skos:ConceptScheme .
+
+:dsd-diseasedatasets a cube:ComponentSet,
+        cube:DataStructureDefinition,
+        owl:NamedIndividual ;
+    rdfs:label "Data Structure Definition for Disease Datasets"@en ;
+    cube:componentProperty sdmx-code:sex,
+        sdmx-dimension:refArea,
+        sdmx-dimension:refPeriod,
+        :hasdisease,
+        :numberofcases,
+        :rateper100kpopulation ;
+    cube:dimension sdmx-code:sex,
+        sdmx-dimension:refArea,
+        sdmx-dimension:refPeriod,
+        :hasdisease ;
+    cube:measure :numberofcases,
+        :rateper100kpopulation ;
+    rdfs:comment "The structure of disease datasets with dimensions reference area, reference period, sex and disease, and measures number of cases and rate per 100,000 population."@en ;
+    rdfs:seeAlso :dataset-HIVAlberta .
+
+skos:ConceptScheme rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ] .
+
+cube:DataSet rdfs:subClassOf <http://purl.org/NET/scovo#Dataset> .
+
+skos:Collection rdfs:subClassOf [ a owl:Class ;
+            owl:unionOf ( cube:HierarchicalCodeList skos:Collection skos:ConceptScheme ) ] .
+
+doid1:4 a doid1:4,
+        owl:Class,
+        owl:NamedIndividual ;
+    rdfs:label "disease"@en ;
+    rdfs:comment "A disease is a disposition (i) to undergo pathological processes that (ii) exists in an organism because of one or more disorders in that organism."@en ;
+    rdfs:isDefinedBy <http://ontology.buffalo.edu/medo/Disease_and_Diagnosis.pdf> .
+
+cube:Observation rdfs:subClassOf <http://purl.org/NET/scovo#Item> .
+
+[] a swrl:Imp ;
+    rdfs:label "S4"^^xsd:string ;
+    swrla:isRuleEnabled true ;
+    rdfs:comment ""^^xsd:string ;
+    swrl:body [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 :dataset-HIVAlberta ;
+                    swrl:propertyPredicate cube:dataSet ] ;
+            rdf:rest () ] ;
+    swrl:head [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 <http://www.w3.org/2003/01/geo/wgs84_pos#5883102> ;
+                    swrl:propertyPredicate sdmx-dimension:refArea ] ;
+            rdf:rest [ a swrl:AtomList ;
+                    rdf:first [ a swrl:IndividualPropertyAtom ;
+                            swrl:argument1 :x ;
+                            swrl:argument2 sdmx-code:sex-T ;
+                            swrl:propertyPredicate sdmx-code:sex ] ;
+                    rdf:rest [ a swrl:AtomList ;
+                            rdf:first [ a swrl:IndividualPropertyAtom ;
+                                    swrl:argument1 :x ;
+                                    swrl:argument2 doid1:526 ;
+                                    swrl:propertyPredicate :hasdisease ] ;
+                            rdf:rest () ] ] ] .
+
+[] a swrl:Imp ;
+    rdfs:label "S3"^^xsd:string ;
+    swrla:isRuleEnabled true ;
+    rdfs:comment ""^^xsd:string ;
+    swrl:body [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 doid1:0050117 ;
+                    swrl:propertyPredicate :hasdisease ] ;
+            rdf:rest [ a swrl:AtomList ;
+                    rdf:first [ a swrl:DatavaluedPropertyAtom ;
+                            swrl:argument1 :x ;
+                            swrl:argument2 :n ;
+                            swrl:propertyPredicate :numberofcases ] ;
+                    rdf:rest [ a swrl:AtomList ;
+                            rdf:first [ a swrl:BuiltinAtom ;
+                                    swrl:arguments [ a rdf:List ;
+                                            rdf:first :n ;
+                                            rdf:rest [ a rdf:List ;
+                                                    rdf:first 10 ;
+                                                    rdf:rest () ] ] ;
+                                    swrl:builtin swrlb:greaterThan ] ;
+                            rdf:rest () ] ] ] ;
+    swrl:head [ a swrl:AtomList ;
+            rdf:first [ a swrl:BuiltinAtom ;
+                    swrl:arguments ( :x ) ;
+                    swrl:builtin <http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#select> ] ;
+            rdf:rest () ] .
+
+[] a swrl:Imp ;
+    rdfs:label "S2"^^xsd:string ;
+    swrla:isRuleEnabled true ;
+    rdfs:comment ""^^xsd:string ;
+    swrl:body [ a swrl:AtomList ;
+            rdf:first [ a swrl:DatavaluedPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 :n ;
+                    swrl:propertyPredicate :numberofcases ] ;
+            rdf:rest [ a swrl:AtomList ;
+                    rdf:first [ a swrl:IndividualPropertyAtom ;
+                            swrl:argument1 :x ;
+                            swrl:argument2 doid1:526 ;
+                            swrl:propertyPredicate :hasdisease ] ;
+                    rdf:rest [ a swrl:AtomList ;
+                            rdf:first [ a swrl:IndividualPropertyAtom ;
+                                    swrl:argument1 :x ;
+                                    swrl:argument2 <http://www.w3.org/2003/01/geo/wgs84_pos#6091530> ;
+                                    swrl:propertyPredicate sdmx-dimension:refArea ] ;
+                            rdf:rest () ] ] ] ;
+    swrl:head [ a swrl:AtomList ;
+            rdf:first [ a swrl:BuiltinAtom ;
+                    swrl:arguments ( :n ) ;
+                    swrl:builtin <http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#max> ] ;
+            rdf:rest () ] .
+
+[] a swrl:Imp ;
+    rdfs:label "DOID - Transitive Nature"^^xsd:string ;
+    swrla:isRuleEnabled true ;
+    rdfs:comment ""^^xsd:string ;
+    swrl:body [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 :y ;
+                    swrl:propertyPredicate doid1:is_a ] ;
+            rdf:rest [ a swrl:AtomList ;
+                    rdf:first [ a swrl:IndividualPropertyAtom ;
+                            swrl:argument1 :y ;
+                            swrl:argument2 :z ;
+                            swrl:propertyPredicate doid1:is_a ] ;
+                    rdf:rest () ] ] ;
+    swrl:head [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 :z ;
+                    swrl:propertyPredicate doid1:is_a ] ;
+            rdf:rest () ] .
+
+[] a swrl:Imp ;
+    rdfs:label "S1"^^xsd:string ;
+    swrla:isRuleEnabled true ;
+    rdfs:comment ""^^xsd:string ;
+    swrl:body [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 doid1:104 ;
+                    swrl:propertyPredicate :hasdisease ] ;
+            rdf:rest [ a swrl:AtomList ;
+                    rdf:first [ a swrl:DatavaluedPropertyAtom ;
+                            swrl:argument1 :x ;
+                            swrl:argument2 :n ;
+                            swrl:propertyPredicate :numberofcases ] ;
+                    rdf:rest [ a swrl:AtomList ;
+                            rdf:first [ a swrl:IndividualPropertyAtom ;
+                                    swrl:argument1 :x ;
+                                    swrl:argument2 <http://www.w3.org/2003/01/geo/wgs84_pos#6091530> ;
+                                    swrl:propertyPredicate sdmx-dimension:refArea ] ;
+                            rdf:rest [ a swrl:AtomList ;
+                                    rdf:first [ a swrl:IndividualPropertyAtom ;
+                                            swrl:argument1 :x ;
+                                            swrl:argument2 :2017 ;
+                                            swrl:propertyPredicate sdmx-dimension:refPeriod ] ;
+                                    rdf:rest () ] ] ] ] ;
+    swrl:head [ a swrl:AtomList ;
+            rdf:first [ a swrl:BuiltinAtom ;
+                    swrl:arguments ( :n ) ;
+                    swrl:builtin <http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#sum> ] ;
+            rdf:rest () ] .
+
+[] a swrl:Imp ;
+    rdfs:label "Disease-Transitive Nature"^^xsd:string ;
+    swrla:isRuleEnabled true ;
+    rdfs:comment ""^^xsd:string ;
+    swrl:body [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 :y ;
+                    swrl:propertyPredicate :hasdisease ] ;
+            rdf:rest [ a swrl:AtomList ;
+                    rdf:first [ a swrl:IndividualPropertyAtom ;
+                            swrl:argument1 :y ;
+                            swrl:argument2 :z ;
+                            swrl:propertyPredicate doid1:is_a ] ;
+                    rdf:rest () ] ] ;
+    swrl:head [ a swrl:AtomList ;
+            rdf:first [ a swrl:IndividualPropertyAtom ;
+                    swrl:argument1 :x ;
+                    swrl:argument2 :z ;
+                    swrl:propertyPredicate :hasdisease ] ;
+            rdf:rest () ] .
+
