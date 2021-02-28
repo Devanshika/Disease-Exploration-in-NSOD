@@ -1,3 +1,4 @@
+//create a event driven simulation for dragging graph nodes
 drag = simulation => {
     function dragstarted(event) {
         if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -19,13 +20,16 @@ drag = simulation => {
         .on("end", dragended);
 }
 
-
+//width, height and radius of the graph SVG
 width = 1200
 height = 500
+radius = 6;
 
+//select the div and append an svg with the above width and height
 var svg = d3.select("#knowledgeGraph").append("svg")
     .attr("width", width).attr("height", height);
 
+//create a tooltip for each node that allows for displaying data
 var tooltip = d3.select("#knowledgeGraph")
     .append("div")
     .style("opacity", 0)
@@ -36,8 +40,36 @@ var tooltip = d3.select("#knowledgeGraph")
     .style("border-radius", "5px")
     .style("padding", "5px");
 
-radius = 6;
+//create a color scheme for linked data sources
 var colorSchemeDataSource = ["#906500",
+    "#0248ce",
+    "#74cb00",
+    "#cc00c0",
+    "#7effa8",
+    "#f1008b",
+    "#00b7ae",
+    "#f29cff",
+    "#5de9ff",
+    "#d25700",
+    "#0095d9",
+    "#ffe462",
+    "#ae0073",
+    "#005936",
+    "#b70038",
+    "#193500",
+    "#ff8490",
+    "#001c0e",
+    "#e0eeff",
+    "#7b0004",
+    "#00abd2",
+    "#6a0018",
+    "#016b82",
+    "#331800",
+    "#005255"
+]
+
+//create a color scheme for datasets
+var colorSchemeDataset = ["#906500",
     "#0248ce",
     "#74cb00",
     "#cc00c0",
@@ -59,105 +91,81 @@ var colorSchemeDataSource = ["#906500",
     "#7b0004",
     "#00abd2",
     "#6a0018",
-    "#016b82",
-    "#331800",
-    "#005255"
-]
-
-var colorSchemeDataset = ["#906500",
-    "#0248ce",
-    "#74cb00",
-    "#cc00c0",
-    "#7effa8",
-    "#f1008b",
     "#000000"
 ]
 
+//create a color scheme for search results
 var colorSchemeSearch = [
     "#90d911",
     "#d94011"
 ]
 
+//domain for search results
 var searchDomain = ["Data", "Linked Data Sources"]
 
+//boolean to check which mode is active
 var datasetMode = false;
+//Button to toggle graph to use dataset as domain
 var datasetBtn = document.getElementById("toggleByDataset");
 datasetBtn.disabled = false;
+//Button to toggle graph to use data source as domain
 var datasourceBtn = document.getElementById("toggleByDataSource");
 datasourceBtn.disabled = true;
+//Button that allows for searching in the application
 var searchBtn = document.getElementById("searchDataBtn");
+//Events for above buttons
 searchBtn.addEventListener("click", validateAndSearch);
 datasetBtn.addEventListener("click", () => toggleView(true))
 datasourceBtn.addEventListener("click", () => toggleView(false))
 
 
-// Get the input field
+// Search input field
 var inp_field = document.getElementById("searchInpField");
 
-// Execute a function when the user releases a key on the keyboard
+// Execute search when enter is pressed
 inp_field.addEventListener("keyup", function (event) {
-    // Number 13 is the "Enter" key on the keyboard
-
     if (event.key === "Enter") {
-
-        // Cancel the default action, if needed
         event.preventDefault();
-        // Trigger the button element with a click
         searchBtn.click();
     }
 });
 
 
 function toggleView(byDataset) {
-    datasetMode = byDataset;
+    datasetMode = byDataset; //set global variable
     if (byDataset) {
         datasetBtn.disabled = true;
         datasourceBtn.disabled = false;
-        fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
-            .then(response => response.json())
-            .then(function (response) {
-                if (response.ok) {
-                    createDropdowns(response.data);
-                    createGraph(response.data, true);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
     }
     else {
         datasetBtn.disabled = false;
         datasourceBtn.disabled = true;
-        fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
-            .then(response => response.json())
-            .then(function (response) {
-                if (response.ok) {
-                    createDropdowns(response.data);
-                    createGraph(response.data);
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
     }
+    //get all data
+    fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" }) 
+    .then(response => response.json())
+    .then(function (response) {
+        if (response.ok) {
+            createDropdowns(response.data);//create dropdowns for filters
+            createGraph(response.data, datasetMode);//create graph
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
+toggleView(false) //setup the initial draw for graph
 
-toggleView(false)
-
-function distanceCalc(d) {
-    return d.value;
-}
-
-var mouseover = function () {
-    tooltip
-        .style("opacity", 1)
+var mouseover = function () { //mouse over function to allow for tooltip to be displayed
+    tooltip.style("opacity", 1)
     d3.select(this)
         .style("stroke", "black")
         .style("opacity", 1)
 }
-var mousemove = function (ev, d) {
+var mousemove = function (ev, d) { //display tooltip content when mouse is moved
     var html = ""
     html = html.concat("<p><strong>Subject:</strong> " + d.id + "<br>")
-    if (d.dataset != "") {
+    if (d.dataset != "Linked Data") {
         html = html.concat("<strong>Dataset:</strong> " + d.dataset + "<br>")
     }
     if (d.group != "") {
@@ -166,7 +174,7 @@ var mousemove = function (ev, d) {
     html = html.concat("</p><p>")
     for (ix in d.relationships) {
         relationship = d.relationships[ix];
-        html = html.concat("<strong>Relationship Type:</strong> " + relationship.Predicate + " => <strong>Object:</strong> " + relationship.Object + "<br>")
+        html = html.concat("<strong>" + relationship.predicate + "</strong> => " + relationship.object + "<br>")
     }
     html = html.concat("</p>")
     var matrix = this.getScreenCTM()
@@ -175,16 +183,16 @@ var mousemove = function (ev, d) {
         .style("left", (window.pageXOffset + matrix.e + 15) + "px")
         .style("top", (window.pageYOffset + matrix.f - 30) + "px");
 }
-var mouseleave = function () {
+var mouseleave = function () { //remove tooltip on mouse leave
     tooltip
         .style("opacity", 0)
     d3.select(this)
-        .style("stroke", "none")
-        .style("opacity", 0.8)
+    .attr("stroke", "#fff")
+    .style("opacity",0.8)
 }
 
 createGraph = function (data, byDataset = false, bySearch = false) {
-    svg.selectAll("*").remove();
+    svg.selectAll("*").remove(); //remove previous nodes
     var color = null;
     if (!bySearch) {
         color = d3.scaleOrdinal(byDataset ? colorSchemeDataset : colorSchemeDataSource);
@@ -196,12 +204,12 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         datasetBtn.disabled = false;
         datasourceBtn.disabled = false;
     }
-    var simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id(d => d.id).distance(distanceCalc))
+    var simulation = d3.forceSimulation() 
+        .force("link", d3.forceLink().id(d => d.id).distance(d => d.value))
         .force("charge", d3.forceManyBody().strength(-30).distanceMax(200))
-        .force("center", d3.forceCenter(width / 3, height / 2));
+        .force("center", d3.forceCenter(width / 3, height / 2));//create a force simulation with link,center and manybody forces
 
-    var link = svg.append("g")
+    var link = svg.append("g") 
         .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6)
         .selectAll("line")
@@ -211,21 +219,23 @@ createGraph = function (data, byDataset = false, bySearch = false) {
             function (d) {
                 value = d.value > 20 ? 1 : 4;
                 return Math.sqrt(value)
-            });
+            });//create link for nodes
 
-    var node = svg.append("g")
+    var node = svg.append("g") 
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
+        .style("opacity",0.8)
         .selectAll("g")
         .data(data.nodes)
-        .enter().append("g");
+        .enter().append("g");//create nodes of the graph
 
-    var circles = node.append("circle")
+    var circles = node.append("circle") 
         .data(data.nodes)
         .attr("r", 5)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);
+        .on("mouseleave", mouseleave);//create circles inside the nodes and bind mouse events
+
     if (!bySearch) {
         if (byDataset) {
             circles.attr("fill", function (d) { return color(d.dataset); })
@@ -243,8 +253,7 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         .nodes(data.nodes)
         .on("tick", ticked);
 
-    simulation.force("link")
-        .links(data.links);
+    simulation.force("link").links(data.links);//set links for force links
 
     function ticked() {
         link
@@ -260,11 +269,11 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         })
     }
 
-    var legend = svg.selectAll(".legend")
+    var legend = svg.selectAll(".legend") 
         .data(color.domain())
         .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });//create a legend
 
     legend.append("rect")
         .attr("x", width - 18)
@@ -278,16 +287,15 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .text(function (d) { return d; });
-
 }
 
 function createDropdownBtn(dropdown, id, text, eventVal) {
-    btn = document.createElement('button');
-    btn.classList.add("dropdown-item");
-    btn.id = id;
-    btn.innerHTML = text
+    btn = document.createElement('button'); //create button element
+    btn.classList.add("dropdown-item"); //add bootstrap class
+    btn.id = id; //set id
+    btn.innerHTML = text //text
     btn.addEventListener("click", eventVal);
-    dropdown.appendChild(btn);
+    dropdown.appendChild(btn); //append to dropdown menu
 }
 
 function createDropdowns(data) {
