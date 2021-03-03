@@ -130,7 +130,11 @@ inp_field.addEventListener("keyup", function (event) {
     }
 });
 
-
+function resetMenuValues() {
+    searchInpField.text = ""
+    document.getElementById("filterByArea").innerHTML = "Filter By Area"
+    document.getElementById("filterByYear").innerHTML = "Filter By Year"
+}
 function toggleView(byDataset) {
     datasetMode = byDataset; //set global variable
     if (byDataset) {
@@ -142,16 +146,16 @@ function toggleView(byDataset) {
         datasourceBtn.disabled = true;
     }
     //get all data
-    fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" }) 
-    .then(response => response.json())
-    .then(function (response) {
-        if (response.ok) {
-            createDropdowns(response.data);//create dropdowns for filters
-            createGraph(response.data, datasetMode);//create graph
-        }
-    }).catch(function (error) {
-        console.log(error);
-    });
+    fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
+        .then(response => response.json())
+        .then(function (response) {
+            if (response.ok) {
+                createDropdowns(response.data);//create dropdowns for filters
+                createGraph(response.data, datasetMode);//create graph
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
 }
 
 toggleView(false) //setup the initial draw for graph
@@ -162,19 +166,55 @@ var mouseover = function () { //mouse over function to allow for tooltip to be d
         .style("stroke", "black")
         .style("opacity", 1)
 }
+function getObjectValue(object) {
+    hashPos = object.indexOf("#");
+    if (hashPos == -1) {
+        hashPos = object.lastIndexOf("/");
+    }
+    return object.substring(hashPos + 1);
+}
 var mousemove = function (ev, d) { //display tooltip content when mouse is moved
     var html = ""
-    html = html.concat("<p><strong>Subject:</strong> " + d.id + "<br>")
+    html = html.concat("<p><strong>Subject:</strong> " + getObjectValue(d.id) + "<br>")
     if (d.dataset != "Linked Data") {
         html = html.concat("<strong>Dataset:</strong> " + d.dataset + "<br>")
     }
-    if (d.group != "") {
-        html = html.concat("<strong>Data Source:</strong> " + d.group + "<br>");
-    }
+    // if (d.group != "") {
+    //     html = html.concat("<strong>Data Source:</strong> " + d.group + "<br>");
+    // }
     html = html.concat("</p><p>")
+    diseaseList = []
     for (ix in d.relationships) {
         relationship = d.relationships[ix];
+        if (relationship.predicate == "refArea") {
+            relationship.predicate = "Province"
+        }
+        if (relationship.predicate == "refPeriod") {
+            relationship.predicate = "Year"
+        }
+        if (relationship.predicate == "numberofcases") {
+            relationship.predicate = "Number of Cases"
+        }
+        if (relationship.predicate == "rateper100kpopulation") {
+            relationship.predicate = "Rate per 100k Population"
+        }
+        if (relationship.predicate == "Disease") {
+            if (relationship.object != "disease") {
+                diseaseList.push(relationship.object)
+
+            }
+            continue;
+        }
         html = html.concat("<strong>" + relationship.predicate + "</strong> => " + relationship.object + "<br>")
+    }
+    if (diseaseList.length != 0) {
+        html = html.concat("<strong>" + "Diseases" + "</strong> => <br>")
+        for (i in diseaseList) {
+            if (i != diseaseList.length - 1)
+                html = html.concat(diseaseList[i] + "<br>")
+            else
+                html = html.concat(diseaseList[i])
+        }
     }
     html = html.concat("</p>")
     var matrix = this.getScreenCTM()
@@ -187,10 +227,14 @@ var mouseleave = function () { //remove tooltip on mouse leave
     tooltip
         .style("opacity", 0)
     d3.select(this)
-    .attr("stroke", "#fff")
-    .style("opacity",0.8)
+        .attr("stroke", "#fff")
+        .style("opacity", 0.8)
 }
-
+var nodeclick = function (ev, d) { //open NSOD link on node click
+    if (d.url != "") {
+        window.open(d.url)
+    }
+}
 createGraph = function (data, byDataset = false, bySearch = false) {
     svg.selectAll("*").remove(); //remove previous nodes
     var color = null;
@@ -204,12 +248,12 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         datasetBtn.disabled = false;
         datasourceBtn.disabled = false;
     }
-    var simulation = d3.forceSimulation() 
-        .force("link", d3.forceLink().id(d => d.id).distance(d => d.value))
+    var simulation = d3.forceSimulation()
+        .force("link", d3.forceLink().id(d => d.id))
         .force("charge", d3.forceManyBody().strength(-30).distanceMax(200))
         .force("center", d3.forceCenter(width / 3, height / 2));//create a force simulation with link,center and manybody forces
 
-    var link = svg.append("g") 
+    var link = svg.append("g")
         .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6)
         .selectAll("line")
@@ -221,24 +265,50 @@ createGraph = function (data, byDataset = false, bySearch = false) {
                 return Math.sqrt(value)
             });//create link for nodes
 
-    var node = svg.append("g") 
+    var node = svg.append("g")
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
-        .style("opacity",0.8)
+        .style("opacity", 0.8)
         .selectAll("g")
         .data(data.nodes)
         .enter().append("g");//create nodes of the graph
 
-    var circles = node.append("circle") 
+
+    var circles = node.append("circle")
         .data(data.nodes)
-        .attr("r", 5)
+        .attr("r", bySearch ? 20 : 5)
+       // .text(d => d.id) 
+            // 
+         
+        
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);//create circles inside the nodes and bind mouse events
-
+        .on("mouseleave", mouseleave)//create circles inside the nodes and bind mouse events
+        .on("click", nodeclick);
+    simulation.force("link").distance(function (d) {
+        return (bySearch ? 4.5 : 1) * d.value;
+    })
+    
+    if(bySearch){
+        
+      var lables = node.append("text")
+      .text(function(d) {
+        for (ix in d.relationships) {
+            relationship = d.relationships[ix];
+            if (relationship.predicate == "numberofcases")
+                return relationship.object;
+            }
+        return ""
+      })
+      
+      .attr('x', 2)
+      .attr('y', 3);
+      
+    }
     if (!bySearch) {
         if (byDataset) {
             circles.attr("fill", function (d) { return color(d.dataset); })
+
         }
         else {
             circles.attr("fill", function (d) { return color(d.group); })
@@ -269,7 +339,7 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         })
     }
 
-    var legend = svg.selectAll(".legend") 
+    var legend = svg.selectAll(".legend")
         .data(color.domain())
         .enter().append("g")
         .attr("class", "legend")
@@ -353,6 +423,8 @@ function filterByYear(year) {
         .then(response => response.json())
         .then(function (response) {
             if (response.ok) {
+                resetMenuValues();
+                document.getElementById("filterByYear").innerHTML = year
                 createGraph(response.data, datasetMode, true);
             }
         }).catch(function (error) {
@@ -361,11 +433,14 @@ function filterByYear(year) {
 }
 
 function filterByArea(area) {
+
     area_data = { "area": area }
     fetch("/filterByArea", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(area_data) })
         .then(response => response.json())
         .then(function (response) {
             if (response.ok) {
+                resetMenuValues();
+                document.getElementById("filterByArea").innerHTML = area
                 createGraph(response.data, datasetMode, true);
             }
         }).catch(function (error) {
@@ -379,7 +454,8 @@ function filterBySearch(search) {
         .then(response => response.json())
         .then(function (response) {
             if (response.ok) {
-
+                resetMenuValues();
+                searchInpField.innerHTML = search
                 createGraph(response.data, datasetMode, true);
             }
         }).catch(function (error) {

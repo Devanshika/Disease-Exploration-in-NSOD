@@ -37,7 +37,7 @@ function getDataset(subjectVal, objectVal) {
 }
 
 function getDefaultNodeStructure(value) {
-    return { "id": value, "relationships": [], "group": "", "dataset": "Linked Data", "search": "" };
+    return { "id": value, "relationships": [], "group": "", "dataset": "Linked Data", "search": "" , "url": ""};
 }
 
 function downloadPage(url) {
@@ -99,10 +99,10 @@ async function getRelationship(predicate, object, parsedDiseaseInfo) {
         relationship.predicate = "dimension#rateper100kpopulation"
         relationship.object = object
     }
-    else if (predicate.includes("#sex")) {
-        relationship.predicate = "dimension#sex"
-        relationship.object = getObjectValue(object)
-    }
+    // else if (predicate.includes("#sex")) {
+    //     relationship.predicate = "dimension#sex"
+    //     relationship.object = getObjectValue(object)
+    // }
     else if (predicate.includes("#refPeriod")) {
         relationship.predicate = "dimension#refPeriod"
         relationship.object = getObjectValue(object)
@@ -328,6 +328,7 @@ async function launchApplication() {
     measureList = []
     datasetList = []
     parsedDiseaseInfo = {}
+    datasetURL={}
 
     for (i = 0; i < allQuads.length; i++) {
         //Get values of subject object and predicate from the quad
@@ -367,6 +368,7 @@ async function launchApplication() {
                 datasetName = subjectVal.substring(subjectVal.lastIndexOf("-") + 1)
                 if (datasetList.indexOf(datasetName) < 0) {
                     datasetList.push(datasetName);
+                    datasetURL[datasetName]= ""
                 }
             }
             subjedited = subjectVal.substring(0, pos);
@@ -399,6 +401,10 @@ async function launchApplication() {
             value = 45;
             if (objectVal.includes("dataset-") || subjectVal.includes("dataset-")) {
                 value = 20;
+            }
+            //adds dataset URL
+            if(subjectVal.includes("dataset-") && predicateVal.includes("#isDefinedBy")){
+                datasetURL[getDataset(subjectVal,objectVal)]=objectVal
             }
             //Create a link between the subject and object node
             links.push({ "source": subjectVal, "target": objectVal, "value": value });
@@ -440,6 +446,7 @@ async function launchApplication() {
     }
     datasetList.push("Linked Data")
     ontologyList.push("")
+    datasetURL["Linked Data"]=""
     //create datastructure to be sent to frontend
     data = {
         "nodes": [],
@@ -461,7 +468,7 @@ async function launchApplication() {
             joinedNodes[key].relationships.push({ "predicate": "Label", "object": parsedDiseaseInfo[joinedNodes[key].id].name })
             joinedNodes[key].relationships.push({ "predicate": "Description", "object": parsedDiseaseInfo[joinedNodes[key].id].definition })
         }
-
+        joinedNodes[key].url=datasetURL[joinedNodes[key].dataset]
         //find all the unique values of dimensions and measures for frontend filters
         relationships = joinedNodes[key].relationships;
         for (ix in relationships) {
