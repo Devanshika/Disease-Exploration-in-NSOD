@@ -36,8 +36,9 @@ function getDataset(subjectVal, objectVal) {
     }
 }
 
+
 function getDefaultNodeStructure(value) {
-    return { "id": value, "relationships": [], "group": "", "dataset": "Linked Data", "search": "" , "url": ""};
+    return { "id": value, "relationships": [], "group": "", "dataset": "Linked Data", "search": "", "url": "" };
 }
 
 function downloadPage(url) {
@@ -156,136 +157,99 @@ function correctOntologyLink(value) {
     return value;
 }
 
-function filterByDiseases(req, res, data, joinedNodes) {
-    disease = req.body.disease; //get disease from request
-    data_copy = { //create a copy
-        "nodes": [],
-        "links": [],
-        "ontologylist": data.ontologyList,
-        "datasets": data.datasets,
-        "dimensions": data.dimensions,
-        "measures": data.measures
-    };
+// function filterByDiseases(req, res, data, joinedNodes) {
+//     disease = req.body.disease; //get disease from request
+//     data_copy = { //create a copy
+//         "nodes": [],
+//         "links": [],
+//         "ontologylist": data.ontologyList,
+//         "datasets": data.datasets,
+//         "dimensions": data.dimensions,
+//         "measures": data.measures
+//     };
 
-    node_object = {}
-    all_nodes = data.nodes;
+//     node_object = {}
+//     all_nodes = data.nodes;
 
-    for (ix in all_nodes) {//loop through nodes to find disease nodes
-        node = all_nodes[ix];
-        diseaseNode = node.id.includes("DOID_")
-        relationships = node.relationships;
-        for (ix in relationships) {
-            relationship = relationships[ix];
-            if (diseaseNode) {
-                if (relationship.predicate.includes("Label")) {
-                    if (disease == relationship.object) {
+//     for (ix in all_nodes) {//loop through nodes to find disease nodes
+//         node = all_nodes[ix];
+//         diseaseNode = node.id.includes("DOID_")
+//         relationships = node.relationships;
+//         for (ix in relationships) {
+//             relationship = relationships[ix];
+//             if (diseaseNode) {
+//                 if (relationship.predicate.includes("Label")) {
+//                     if (disease == relationship.object) {
+//                         node_object[node.id] = node;
+//                         node_object[node.id].search = "Data";
+//                         break;
+//                     }
+//                 }
+//             }
+//             else if (relationship.predicate.includes("Disease")) {
+//                 if (disease == relationship.object) {
+//                     node_object[node.id] = node;
+//                     node_object[node.id].search = "Data";
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+//     all_links = data.links;
+//     get_linked_data(node_object, all_links, data_copy, joinedNodes)
+//     return res.status(200).json({
+//         ok: true,
+//         data: data_copy
+//     });
+// }
+
+function filterData(req, res, data, joinedNodes) {
+    if (req.body.year != "All Years") {
+        data = filterByDimension(req.body.year, "refPeriod", data, joinedNodes)
+    }
+    if (req.body.area != "All Areas") {
+        data = filterByDimension(req.body.area, "refArea", data, joinedNodes)
+    }
+    search = req.body.search.toLowerCase();
+    if (search != "") {
+        data_copy = { //create a copy
+            "nodes": [],
+            "links": [],
+            "ontologylist": data.ontologyList,
+            "datasets": data.datasets,
+            "dimensions": data.dimensions,
+            "measures": data.measures
+        }
+        node_object = {}
+        all_nodes = data.nodes;
+        for (ix = 0; ix < all_nodes.length; ix++) {
+            node = all_nodes[ix];
+            if (node.id.toLowerCase().includes(search) ||
+                node.dataset.toLowerCase().includes(search) ||
+                node.group.toLowerCase().includes(search)) {
+                node_object[node.id] = node;
+                node_object[node.id].search = "Data";
+            }
+            else {
+                relationships = node.relationships;
+                for (jx in relationships) {
+                    relationship = node.relationships[jx];
+                    if (relationship.object.toLowerCase().includes(search)) {
                         node_object[node.id] = node;
                         node_object[node.id].search = "Data";
-                        break;
                     }
                 }
             }
-            else if (relationship.predicate.includes("Disease")) {
-                if (disease == relationship.object) {
-                    node_object[node.id] = node;
-                    node_object[node.id].search = "Data";
-                    break;
-                }
-            }
         }
+        all_links = data.links
+        get_linked_data(node_object, all_links, data_copy, joinedNodes)
+        data=data_copy
     }
-    all_links = data.links;
-    get_linked_data(node_object, all_links, data_copy, joinedNodes)
     return res.status(200).json({
         ok: true,
-        data: data_copy
+        data: data
     });
-}
 
-
-function filterByYear(req, res, data, joinedNodes) {
-    data_copy = filterByDimension(req.body.year, "refPeriod", data, joinedNodes)
-    return res.status(200).json({
-        ok: true,
-        data: data_copy
-    });
-}
-
-function filterByArea(req, res, data, joinednodes) {
-    data_copy = filterByDimension(req.body.area, "refArea", data, joinedNodes)
-    return res.status(200).json({
-        ok: true,
-        data: data_copy
-    });
-}
-
-function filterBySearch(req, res, data, joinedNodes) {
-    search = req.body.search.toLowerCase();
-    data_copy = { //create a copy
-        "nodes": [],
-        "links": [],
-        "ontologylist": data.ontologyList,
-        "datasets": data.datasets,
-        "dimensions": data.dimensions,
-        "measures": data.measures
-    };
-    node_object = {}
-    all_nodes = data.nodes;
-    for (ix = 0; ix < all_nodes.length; ix++) {
-        node = all_nodes[ix];
-        if (node.id.toLowerCase().includes(search) ||
-            node.dataset.toLowerCase().includes(search) ||
-            node.group.toLowerCase().includes(search)) {
-            node_object[node.id] = node;
-            node_object[node.id].search = "Data";
-        }
-        else {
-            relationships = node.relationships;
-            for (jx in relationships) {
-                relationship = node.relationships[jx];
-                if (relationship.object.toLowerCase().includes(search)) {
-                    node_object[node.id] = node;
-                    node_object[node.id].search = "Data";
-                }
-            }
-        }
-    }
-    all_links = data.links
-    get_linked_data(node_object, all_links, data_copy, joinedNodes)
-    return res.status(200).json({
-        ok: true,
-        data: data_copy
-    });
-}
-
-function filterByDimension(value, dimension, data, joinedNodes) {
-    data_copy = { //create a copy
-        "nodes": [],
-        "links": [],
-        "ontologylist": data.ontologyList,
-        "datasets": data.datasets,
-        "dimensions": data.dimensions,
-        "measures": data.measures
-    };
-    node_object = {}
-    all_nodes = data.nodes;
-    for (ix in all_nodes) {
-        node = all_nodes[ix];
-        relationships = node.relationships;
-        for (ix in relationships) {//loop through ind and compare
-            relationship = relationships[ix];
-            if (relationship.predicate.includes(dimension)) {
-                if (value == relationship.object) {
-                    node_object[node.id] = node;
-                    node_object[node.id].search = "Data";
-                    break;
-                }
-            }
-        }
-    }
-    all_links = data.links;
-    get_linked_data(node_object, all_links, data_copy, joinedNodes)
-    return data_copy
 }
 
 function get_linked_data(node_object, all_links, data_copy, joinedNodes) {
@@ -310,7 +274,42 @@ function get_linked_data(node_object, all_links, data_copy, joinedNodes) {
         data_copy.nodes.push(node_object[key]);
     }
 }
-
+function getByDataset(req, res, data){
+    if(!req.body.showLinkedDataToggle){
+        data_copy = { //create a copy
+            "nodes": [],
+            "links": [],
+            "ontologylist": data.ontologyList,
+            "datasets": data.datasets,
+            "dimensions": data.dimensions,
+            "measures": data.measures
+        }
+        node_object = {}
+        all_nodes = data.nodes;
+        for (ix = 0; ix < all_nodes.length; ix++) {
+            node = all_nodes[ix];
+            if(!node.dataset.includes("Linked Data")){
+                node_object[node.id] = node;
+            }
+        }
+        all_links = data.links
+        for (ix in all_links) { //loop through links to find if target or source node node in node_object
+            link = all_links[ix];
+            if (!(link.source in node_object) || !(link.target in node_object)) {
+                continue;
+            } 
+            data_copy.links.push(link)
+        }
+        for (key in node_object) { //push nodes in data object
+            data_copy.nodes.push(node_object[key]);
+        }
+        data=data_copy;
+    }
+    return res.status(200).json({
+        ok: true,
+        data: data
+    });
+}
 
 async function launchApplication() {
     //parse the turtle file into a stream of quads
@@ -328,7 +327,7 @@ async function launchApplication() {
     measureList = []
     datasetList = []
     parsedDiseaseInfo = {}
-    datasetURL={}
+    datasetURL = {}
 
     for (i = 0; i < allQuads.length; i++) {
         //Get values of subject object and predicate from the quad
@@ -368,7 +367,7 @@ async function launchApplication() {
                 datasetName = subjectVal.substring(subjectVal.lastIndexOf("-") + 1)
                 if (datasetList.indexOf(datasetName) < 0) {
                     datasetList.push(datasetName);
-                    datasetURL[datasetName]= ""
+                    datasetURL[datasetName] = ""
                 }
             }
             subjedited = subjectVal.substring(0, pos);
@@ -403,8 +402,8 @@ async function launchApplication() {
                 value = 20;
             }
             //adds dataset URL
-            if(subjectVal.includes("dataset-") && predicateVal.includes("#isDefinedBy")){
-                datasetURL[getDataset(subjectVal,objectVal)]=objectVal
+            if (subjectVal.includes("dataset-") && predicateVal.includes("#isDefinedBy")) {
+                datasetURL[getDataset(subjectVal, objectVal)] = objectVal
             }
             //Create a link between the subject and object node
             links.push({ "source": subjectVal, "target": objectVal, "value": value });
@@ -446,7 +445,7 @@ async function launchApplication() {
     }
     datasetList.push("Linked Data")
     ontologyList.push("")
-    datasetURL["Linked Data"]=""
+    datasetURL["Linked Data"] = ""
     //create datastructure to be sent to frontend
     data = {
         "nodes": [],
@@ -468,7 +467,7 @@ async function launchApplication() {
             joinedNodes[key].relationships.push({ "predicate": "Label", "object": parsedDiseaseInfo[joinedNodes[key].id].name })
             joinedNodes[key].relationships.push({ "predicate": "Description", "object": parsedDiseaseInfo[joinedNodes[key].id].definition })
         }
-        joinedNodes[key].url=datasetURL[joinedNodes[key].dataset]
+        joinedNodes[key].url = datasetURL[joinedNodes[key].dataset]
         //find all the unique values of dimensions and measures for frontend filters
         relationships = joinedNodes[key].relationships;
         for (ix in relationships) {
@@ -507,7 +506,12 @@ async function launchApplication() {
     app.use(bp.urlencoded({ extended: false }))
     app.get("/", (req, res) => {
         res.status(200).sendFile(path.join(__dirname + '/Express/index.html'));
-
+    });
+    app.get("/knowledge-graph", (req, res) => {
+        res.status(200).sendFile(path.join(__dirname + '/Express/kgraph.html'));
+    });
+    app.get("/other-charts", (req, res) => {
+        res.status(200).sendFile(path.join(__dirname + '/Express/chart.html'));
     });
     app.post("/getRDFData", (req, res) => {
         return res.status(200).json({
@@ -515,25 +519,16 @@ async function launchApplication() {
             data: data
         });
     });
-    app.post("/filterByDiseases", (req, res) => {
+    
+    app.post("/filterData", (req, res) => {
         let data_copy = data
         let joined_nodes = joinedNodes
-        return filterByDiseases(req, res, data_copy, joined_nodes);
+        return filterData(req, res, data_copy, joined_nodes);
     });
-    app.post("/filterByYear", (req, res) => {
+    app.post("/getByDataset", (req, res) => {
         let data_copy = data
         let joined_nodes = joinedNodes
-        return filterByYear(req, res, data_copy, joined_nodes);
-    });
-    app.post("/filterByArea", (req, res) => {
-        let data_copy = data
-        let joined_nodes = joinedNodes
-        return filterByArea(req, res, data_copy, joined_nodes);
-    });
-    app.post("/filterBySearch", (req, res) => {
-        let data_copy = data
-        let joined_nodes = joinedNodes
-        return filterBySearch(req, res, data_copy, joined_nodes);
+        return getByDataset(req, res, data_copy, joined_nodes);
     });
     /**
      * Server Activation
