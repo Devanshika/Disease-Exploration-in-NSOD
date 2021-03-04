@@ -243,7 +243,7 @@ function filterData(req, res, data, joinedNodes) {
         }
         all_links = data.links
         get_linked_data(node_object, all_links, data_copy, joinedNodes)
-        data=data_copy
+        data = data_copy
     }
     return res.status(200).json({
         ok: true,
@@ -274,8 +274,8 @@ function get_linked_data(node_object, all_links, data_copy, joinedNodes) {
         data_copy.nodes.push(node_object[key]);
     }
 }
-function getByDataset(req, res, data){
-    if(!req.body.showLinkedDataToggle){
+function getByDataset(req, res, data) {
+    if (!req.body.showLinkedDataToggle) {
         data_copy = { //create a copy
             "nodes": [],
             "links": [],
@@ -288,7 +288,7 @@ function getByDataset(req, res, data){
         all_nodes = data.nodes;
         for (ix = 0; ix < all_nodes.length; ix++) {
             node = all_nodes[ix];
-            if(!node.dataset.includes("Linked Data")){
+            if (!node.dataset.includes("Linked Data")) {
                 node_object[node.id] = node;
             }
         }
@@ -297,17 +297,40 @@ function getByDataset(req, res, data){
             link = all_links[ix];
             if (!(link.source in node_object) || !(link.target in node_object)) {
                 continue;
-            } 
+            }
             data_copy.links.push(link)
         }
         for (key in node_object) { //push nodes in data object
             data_copy.nodes.push(node_object[key]);
         }
-        data=data_copy;
+        data = data_copy;
     }
     return res.status(200).json({
         ok: true,
         data: data
+    });
+}
+
+function getChartData(req, res, data) {
+    front_data = []
+    nodes = data.nodes
+    for (ix in nodes) {
+        node = nodes[ix]
+        if (node.id.includes("obs-")) {
+            observation = { "id": node.id, "refArea": "All Areas", "refPeriod": "All Years", "numberOfCases": 0, "rateper100kpopulation": 0, "dataset": node.dataset }
+            relationships = node.relationships
+            for (jx in relationships) {
+                relationship = relationships[jx]
+                if (relationship.predicate in observation) {
+                    observation[relationship.predicate] = relationship.object
+                }
+            }
+            front_data.push(observation)
+        }
+    }
+    return res.status(200).json({
+        ok: true,
+        data: front_data
     });
 }
 
@@ -519,7 +542,7 @@ async function launchApplication() {
             data: data
         });
     });
-    
+
     app.post("/filterData", (req, res) => {
         let data_copy = data
         let joined_nodes = joinedNodes
@@ -527,8 +550,11 @@ async function launchApplication() {
     });
     app.post("/getByDataset", (req, res) => {
         let data_copy = data
-        let joined_nodes = joinedNodes
-        return getByDataset(req, res, data_copy, joined_nodes);
+        return getByDataset(req, res, data_copy);
+    });
+    app.post("/getChartData", (req, res) => {
+        let data_copy = data
+        return getChartData(req, res, data_copy);
     });
     /**
      * Server Activation
