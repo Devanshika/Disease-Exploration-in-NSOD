@@ -530,9 +530,6 @@ async function launchApplication() {
     app.get("/", (req, res) => {
         res.status(200).sendFile(path.join(__dirname + '/Express/index.html'));
     });
-    app.get("/knowledge-graph", (req, res) => {
-        res.status(200).sendFile(path.join(__dirname + '/Express/kgraph.html'));
-    });
     app.get("/other-charts", (req, res) => {
         res.status(200).sendFile(path.join(__dirname + '/Express/chart.html'));
     });
