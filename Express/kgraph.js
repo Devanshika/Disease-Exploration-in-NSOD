@@ -1,3 +1,7 @@
+//creating global variables
+areaString = "All Areas"
+searchString = ""
+yearString = "All Years"
 //create a event driven simulation for dragging graph nodes
 drag = simulation => {
     function dragstarted(event) {
@@ -117,11 +121,12 @@ var searchBtn = document.getElementById("searchDataBtn");
 searchBtn.addEventListener("click", validateAndSearch);
 datasetBtn.addEventListener("click", () => toggleView(true))
 datasourceBtn.addEventListener("click", () => toggleView(false))
-
-
+checkboxBtn=document.getElementById("linkedDataToggle")
+checkboxBtn.addEventListener("click", () => toggleView(true))
 // Search input field
 var inp_field = document.getElementById("searchInpField");
-
+var areaid = document.getElementById("filterByArea");
+var yearid = document.getElementById("filterByYear");
 // Execute search when enter is pressed
 inp_field.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
@@ -132,21 +137,16 @@ inp_field.addEventListener("keyup", function (event) {
 
 function resetMenuValues() {
     searchInpField.text = ""
-    document.getElementById("filterByArea").innerHTML = "Filter By Area"
-    document.getElementById("filterByYear").innerHTML = "Filter By Year"
+
 }
 function toggleView(byDataset) {
     datasetMode = byDataset; //set global variable
     if (byDataset) {
         datasetBtn.disabled = true;
         datasourceBtn.disabled = false;
-    }
-    else {
-        datasetBtn.disabled = false;
-        datasourceBtn.disabled = true;
-    }
-    //get all data
-    fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
+        checkboxBtn.disabled = false;
+        data={"showLinkedDataToggle":checkboxBtn.checked}
+        fetch("/getByDataset", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
         .then(response => response.json())
         .then(function (response) {
             if (response.ok) {
@@ -156,6 +156,24 @@ function toggleView(byDataset) {
         }).catch(function (error) {
             console.log(error);
         });
+    }
+    else {
+        datasetBtn.disabled = false;
+        datasourceBtn.disabled = true;
+        checkboxBtn.disabled = true;
+        fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
+        .then(response => response.json())
+        .then(function (response) {
+            if (response.ok) {
+                createDropdowns(response.data);//create dropdowns for filters
+                createGraph(response.data, datasetMode);//create graph
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    //get all data
+    
 }
 
 toggleView(false) //setup the initial draw for graph
@@ -277,10 +295,10 @@ createGraph = function (data, byDataset = false, bySearch = false) {
     var circles = node.append("circle")
         .data(data.nodes)
         .attr("r", bySearch ? 20 : 5)
-       // .text(d => d.id) 
-            // 
-         
-        
+        // .text(d => d.id) 
+        // 
+
+
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave)//create circles inside the nodes and bind mouse events
@@ -288,22 +306,22 @@ createGraph = function (data, byDataset = false, bySearch = false) {
     simulation.force("link").distance(function (d) {
         return (bySearch ? 4.5 : 1) * d.value;
     })
-    
-    if(bySearch){
-        
-      var lables = node.append("text")
-      .text(function(d) {
-        for (ix in d.relationships) {
-            relationship = d.relationships[ix];
-            if (relationship.predicate == "numberofcases")
-                return relationship.object;
-            }
-        return ""
-      })
-      
-      .attr('x', 2)
-      .attr('y', 3);
-      
+
+    if (bySearch) {
+
+        var lables = node.append("text")
+            .text(function (d) {
+                for (ix in d.relationships) {
+                    relationship = d.relationships[ix];
+                    if (relationship.predicate == "numberofcases")
+                        return relationship.object;
+                }
+                return ""
+            })
+
+            .attr('x', 2)
+            .attr('y', 3);
+
     }
     if (!bySearch) {
         if (byDataset) {
@@ -370,6 +388,14 @@ function createDropdownBtn(dropdown, id, text, eventVal) {
 
 function createDropdowns(data) {
 
+    //initilizing filter values to default values
+    searchString=""
+    areaString="All Areas"
+    yearString="All Years"
+    yearid.innerHTML=yearString;
+    inp_field.value=searchString;
+    areaid.innerHTML=areaString;
+
     // diseaseMenu = document.getElementById("filterByDiseasesMenu")
     yearMenu = document.getElementById("filterByYearMenu")
     areaMenu = document.getElementById("filterByAreaMenu")
@@ -379,8 +405,9 @@ function createDropdowns(data) {
     areaMenu.innerHTML = ""
 
     // createDropdownBtn(diseaseMenu, "reset_dis", "All Diseases", () => toggleView(datasetMode));
-    createDropdownBtn(yearMenu, "reset_ye", "All Years", () => toggleView(datasetMode));
-    createDropdownBtn(areaMenu, "reset_ar", "All Areas", () => toggleView(datasetMode));
+    createDropdownBtn(yearMenu, "reset_ye", "All Years", () => filterByYear("All Years"));
+    createDropdownBtn(areaMenu, "reset_ar", "All Areas", () => filterByArea("All Areas"));
+
 
 
     // for (ix in data.dimensions["hasdisease"]) {
@@ -418,59 +445,34 @@ function filterByDisease(disease) {
 }
 
 function filterByYear(year) {
-    year_data = { "year": year }
-    fetch("/filterByYear", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(year_data) })
-        .then(response => response.json())
-        .then(function (response) {
-            if (response.ok) {
-                resetMenuValues();
-                document.getElementById("filterByYear").innerHTML = year
-                createGraph(response.data, datasetMode, true);
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+    yearString = year
+    filterData()
 }
 
 function filterByArea(area) {
-
-    area_data = { "area": area }
-    fetch("/filterByArea", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(area_data) })
-        .then(response => response.json())
-        .then(function (response) {
-            if (response.ok) {
-                resetMenuValues();
-                document.getElementById("filterByArea").innerHTML = area
-                createGraph(response.data, datasetMode, true);
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
-}
-
-function filterBySearch(search) {
-    search_data = { "search": search }
-    fetch("/filterBySearch", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(search_data) })
-        .then(response => response.json())
-        .then(function (response) {
-            if (response.ok) {
-                resetMenuValues();
-                searchInpField.innerHTML = search
-                createGraph(response.data, datasetMode, true);
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+    areaString = area
+    filterData()
 }
 
 function validateAndSearch() {
-    search_string = removeTags(inp_field.value);
-    if (search_string === "") {
-        toggleView(datasetMode);
-    }
-    else {
-        filterBySearch(search_string);
-    }
+    searchString = removeTags(inp_field.value);
+    filterData()
+}
+
+function filterData() {
+    data = { "year": yearString, "area": areaString, "search": searchString }
+    fetch("/filterData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+        .then(response => response.json())
+        .then(function (response) {
+            if (response.ok) {
+                createGraph(response.data, false, true);
+                yearid.innerHTML=yearString;
+                inp_field.value=searchString;
+                areaid.innerHTML=areaString;
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
 }
 
 function removeTags(value) {
