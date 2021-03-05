@@ -295,7 +295,7 @@ createGraph = function (data, byDataset = false, bySearch = false) {
 
     var circles = node.append("circle")
         .data(data.nodes)
-        .attr("r", bySearch ? 20 : 5)
+        .attr("r", bySearch ? 25 : 5)
         // .text(d => d.id) 
         // 
 
