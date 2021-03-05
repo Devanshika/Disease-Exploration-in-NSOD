@@ -14,7 +14,6 @@ const storeStream = require('rdf-store-stream').storeStream;
 const request = require('request');
 const streamer = require('streamify-string');
 const config = require('./config.json');
-const { Console } = require("console");
 /**
  * App Variables
  */
@@ -312,6 +311,11 @@ function getByDataset(req, res, data) {
 }
 
 function getChartData(req, res, data) {
+    data_dict = {
+        "nodes": null,
+        "datasets": data.datasets,
+        "dimensions": data.dimensions,
+    }
     front_data = []
     nodes = data.nodes
     for (ix in nodes) {
@@ -328,9 +332,10 @@ function getChartData(req, res, data) {
             front_data.push(observation)
         }
     }
+    data_dict.nodes = front_data
     return res.status(200).json({
         ok: true,
-        data: front_data
+        data: data_dict
     });
 }
 
