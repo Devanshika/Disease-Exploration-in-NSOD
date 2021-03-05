@@ -121,7 +121,7 @@ var searchBtn = document.getElementById("searchDataBtn");
 searchBtn.addEventListener("click", validateAndSearch);
 datasetBtn.addEventListener("click", () => toggleView(true))
 datasourceBtn.addEventListener("click", () => toggleView(false))
-checkboxBtn=document.getElementById("linkedDataToggle")
+checkboxBtn = document.getElementById("linkedDataToggle")
 checkboxBtn.addEventListener("click", () => toggleView(true))
 // Search input field
 var inp_field = document.getElementById("searchInpField");
@@ -145,35 +145,35 @@ function toggleView(byDataset) {
         datasetBtn.disabled = true;
         datasourceBtn.disabled = false;
         checkboxBtn.disabled = false;
-        data={"showLinkedDataToggle":checkboxBtn.checked}
+        data = { "showLinkedDataToggle": checkboxBtn.checked }
         fetch("/getByDataset", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-        .then(response => response.json())
-        .then(function (response) {
-            if (response.ok) {
-                createDropdowns(response.data);//create dropdowns for filters
-                createGraph(response.data, datasetMode);//create graph
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+            .then(response => response.json())
+            .then(function (response) {
+                if (response.ok) {
+                    createDropdowns(response.data);//create dropdowns for filters
+                    createGraph(response.data, datasetMode);//create graph
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
     }
     else {
         datasetBtn.disabled = false;
         datasourceBtn.disabled = true;
         checkboxBtn.disabled = true;
         fetch("/getRDFData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
-        .then(response => response.json())
-        .then(function (response) {
-            if (response.ok) {
-                createDropdowns(response.data);//create dropdowns for filters
-                createGraph(response.data, datasetMode);//create graph
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+            .then(response => response.json())
+            .then(function (response) {
+                if (response.ok) {
+                    createDropdowns(response.data);//create dropdowns for filters
+                    createGraph(response.data, datasetMode);//create graph
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
     }
     //get all data
-    
+
 }
 
 toggleView(false) //setup the initial draw for graph
@@ -319,10 +319,8 @@ createGraph = function (data, byDataset = false, bySearch = false) {
                 }
                 return ""
             })
-
-            .attr('x', 2)
-            .attr('y', 3);
-
+            .attr('x', 0)
+            .attr('y', 0);
     }
     if (!bySearch) {
         if (byDataset) {
@@ -390,12 +388,12 @@ function createDropdownBtn(dropdown, id, text, eventVal) {
 function createDropdowns(data) {
 
     //initilizing filter values to default values
-    searchString=""
-    areaString="All Areas"
-    yearString="All Years"
-    yearid.innerHTML=yearString;
-    inp_field.value=searchString;
-    areaid.innerHTML=areaString;
+    searchString = ""
+    areaString = "All Areas"
+    yearString = "All Years"
+    yearid.innerHTML = yearString;
+    inp_field.value = searchString;
+    areaid.innerHTML = areaString;
 
     // diseaseMenu = document.getElementById("filterByDiseasesMenu")
     yearMenu = document.getElementById("filterByYearMenu")
@@ -467,9 +465,9 @@ function filterData() {
         .then(function (response) {
             if (response.ok) {
                 createGraph(response.data, false, true);
-                yearid.innerHTML=yearString;
-                inp_field.value=searchString;
-                areaid.innerHTML=areaString;
+                yearid.innerHTML = yearString;
+                inp_field.value = searchString;
+                areaid.innerHTML = areaString;
             }
         }).catch(function (error) {
             console.log(error);
