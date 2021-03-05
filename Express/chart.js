@@ -228,7 +228,7 @@ function createGraph(data) {
 }
 
 function createPie(data, dimension) {
-    document.getElementById("chartDescription").innerHTML = "This graph shows the distribution of all Observations in terms of " + (dimension == "refArea" ? "Area":"Year")
+    document.getElementById("chartDescription").innerHTML = "This graph shows the distribution of all Observations in terms of " + (dimension == "refArea" ? "Area" : "Year")
     var color = d3.scaleOrdinal(colorSchemes[dimension]);
     color.domain(data.dimensions[dimension])
     var pie = d3.pie()
@@ -316,14 +316,14 @@ function createPie(data, dimension) {
         })
         .attr("class", "legend");
 
-        legendVal.append("rect")
+    legendVal.append("rect")
         .attr("width", 10)
         .attr("height", 10)
-        .attr("fill", function (d,i) {
+        .attr("fill", function (d, i) {
             return (color(i))
         });
 
-        legendVal.append("text")
+    legendVal.append("text")
         .text(function (d) {
             return d.data.key;
         })
@@ -344,8 +344,8 @@ function setMeasureVal(measure, node, dataDict, dimension, maxVal) {
     }
 }
 
-function createLineGraphs(data, measureA, measureB = null) {    
-    document.getElementById("chartDescription").innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Average Number of Cases":"Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+function createLineGraphs(data, measureA, measureB = null) {
+    document.getElementById("chartDescription").innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 20, bottom: 30, left: 50 },
         gWidth = width - margin.left - margin.right,
         gHeight = height - margin.top - margin.bottom;
@@ -371,7 +371,7 @@ function createLineGraphs(data, measureA, measureB = null) {
     nodes = data.nodes
     for (ix in nodes) {
         node = nodes[ix]
-        setMeasureVal(measureA, node, mA_values, "refPeriod")
+        setMeasureVal(measureA, node, mA_values, "refPeriod", measureA != "numberofcases")
         if (measureB != null) {
             setMeasureVal(measureB, node, mB_values, "refPeriod", true)
         }
@@ -454,7 +454,7 @@ function createLineGraphs(data, measureA, measureB = null) {
 }
 
 function createBarGraphs(data, measureA, measureB = null) {
-    document.getElementById("chartDescription").innerHTML = "This graph shows Area wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Maximum Number of Cases":"Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+    document.getElementById("chartDescription").innerHTML = "This graph shows Area wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Maximum Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 20, bottom: 60, left: 60 },
         gWidth = width - margin.left - margin.right,
         gHeight = height - margin.top - margin.bottom;
