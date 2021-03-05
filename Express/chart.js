@@ -356,7 +356,6 @@ function getGraphData(data, measureA, measureB, areaVal = null) {
         value = unique_values[ix]
         mA_values[value] = 0
         mB_values[value] = 0
-        year_total[value] = 0
     }
 
     nodes = data.nodes
@@ -380,17 +379,14 @@ function getGraphData(data, measureA, measureB, areaVal = null) {
         if (measureB != null) {
             nodeDict["measureB"] = mB_values[key]
         }
-        if (measureA == "numberofcases") {
-            nodeDict.measureA = nodeDict.measureA == 0 ? 0 : nodeDict.measureA / year_total[key]
-        }
         graphData.push(nodeDict);
     }
     return graphData
 }
 
 function createAreawiseLineGraphs(data, measureA, measureB = null) {
-    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
-    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations divided by Area. The measures against this dimension are " + (measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
+    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations divided by Area. The measures against this dimension are " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 50, bottom: 30, left: 50 }
 
     unique_area_vals = data.dimensions["refArea"]
@@ -447,7 +443,7 @@ function createLineGraph(graphData, measureA, measureB = null, margin, widthVal,
     var tooltipMeasureA = tooltipInst.append("div");
     tooltipMeasureA.append("span")
         .attr("class", "tooltip-title")
-        .text((measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate per 100K Population") + ": ");
+        .text((measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + ": ");
 
     var tooltipMeasureAValue = tooltipInst.append("span")
         .attr("id", "measureATooltip")
@@ -542,7 +538,7 @@ function createLineGraph(graphData, measureA, measureB = null, margin, widthVal,
         .attr("y", 6)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .text(measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate Per 100K Population");
+        .text(measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate Per 100K Population");
 
     if (measureB != null) {
         y2 = d3.scaleLinear()
@@ -572,8 +568,8 @@ function createLineGraph(graphData, measureA, measureB = null, margin, widthVal,
 }
 
 function createLineGraphs(data, measureA, measureB = null) {
-    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
-    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
+    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 20, bottom: 30, left: 50 }
 
     let graphData = getGraphData(data, measureA, measureB)
