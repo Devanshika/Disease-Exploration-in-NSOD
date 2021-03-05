@@ -321,7 +321,7 @@ function getChartData(req, res, data) {
     for (ix in nodes) {
         node = nodes[ix]
         if (node.id.includes("obs-")) {
-            observation = { "id": node.id, "refArea": "All Areas", "refPeriod": "All Years", "numberOfCases": 0, "rateper100kpopulation": 0, "dataset": node.dataset }
+            observation = { "id": node.id, "refArea": "All Areas", "refPeriod": "All Years", "numberofcases": 0, "rateper100kpopulation": 0, "dataset": node.dataset }
             relationships = node.relationships
             for (jx in relationships) {
                 relationship = relationships[jx]

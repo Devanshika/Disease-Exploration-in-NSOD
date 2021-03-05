@@ -76,14 +76,22 @@ function createGraph(data) {
             createPie(data, "refPeriod")
         }
         else {
-            if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
-            {
-
-            }
+            measureA = null
+            measureB = null
             if (noOfCasesToggle.checked) // make trace for noOfCasesToggle
             {
-
+                measureA = "numberofcases"
             }
+            if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
+            {
+                if (measureA != null) {
+                    measureB = "rateper100kpopulation"
+                }
+                else {
+                    measureA = "rateper100kpopulation"
+                }
+            }
+            createLineGraphs(data, measureA, measureB)
         }
     }
     else if (areaToggle.checked) //dimension area is primary
@@ -187,4 +195,114 @@ function createPie(data, dimension) {
             var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
             return (midangle < Math.PI ? 'start' : 'end')
         })
+}
+
+function setMeasureVal(measure, node, dataDict) {
+    value = node[measure]
+    if (measure == "rateper100kpopulation") {
+
+        if (dataDict[node["refPeriod"]] < value) {
+            dataDict[node["refPeriod"]] = value
+        }
+    }
+    else if (measure == "numberofcases") {
+        dataDict[node["refPeriod"]] += value
+    }
+}
+
+function createLineGraphs(data, measureA, measureB = null) {
+    var margin = { top: 30, right: 20, bottom: 30, left: 50 },
+        gWidth = width - margin.left - margin.right,
+        gHeight = height - margin.top - margin.bottom;
+    g = svg
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var parseTime = d3.timeParse("%Y");
+
+    graphData = []
+    mA_values = {}
+    mB_values = {}
+    year_total = {}
+    unique_values = data.dimensions["refPeriod"]
+    for (ix in unique_values) {
+        value = unique_values[ix]
+        mA_values[value] = 0
+        mB_values[value] = 0
+        year_total[value] = 0
+    }
+
+
+    nodes = data.nodes
+    for (ix in nodes) {
+        node = nodes[ix]
+        setMeasureVal(measureA, node, mA_values)
+        if (measureB != null) {
+            setMeasureVal(measureB, node, mB_values)
+        }
+        year_total[node["refPeriod"]] += 1
+    }
+
+    for (key in mA_values) {
+        nodeDict = { "refPeriod": key, "measureA": mA_values[key] }
+        if (measureB != null) {
+            nodeDict["measureB"] = mB_values[key]
+        }
+        if (measureA == "numberofcases") {
+            nodeDict.measureA = nodeDict.measureA / year_total[key]
+        }
+        graphData.push(nodeDict);
+    }
+    // for (ix in nodes) {
+    //     node = nodes[ix]
+    //     nodeDict = { "refPeriod": node["refPeriod"], "measureA": node[measureA] }
+    //     if (measureB != null) {
+    //         nodeDict["measureB"] = node[measureB]
+    //     }
+    //     graphData.push(nodeDict)
+    // }
+
+    var x = d3.scaleTime()
+        .domain(d3.extent(graphData, function (d) { return parseTime(d.refPeriod); }))
+        .range([0, gWidth]);
+
+    g
+        .append("g")
+        .attr("transform", "translate(0," + gHeight + ")")
+        .call(d3.axisBottom(x));
+
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(graphData, function (d) { return +d.measureA; })])
+        .range([gHeight, 0]);
+
+    g.append("g")
+        .attr("stroke", "steelblue")
+        .call(d3.axisLeft(y));
+
+    g.append("path")
+        .datum(graphData)
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("fill", "none")
+        .attr("d", d3.line()
+            .x(function (d) { return x(parseTime(d.refPeriod)); })
+            .y(function (d) { return y(d.measureA); }));
+
+    if (measureB != null) {
+        var y2 = d3.scaleLinear()
+            .domain([0, d3.max(graphData, function (d) { return +d.measureB; })])
+            .range([gHeight, 0]);
+        g.append("g")
+            .attr("stroke", "red")
+            .attr("transform", "translate(" + gWidth + " ,0)")
+            .call(d3.axisRight(y2));
+        g.append("path")
+            .datum(graphData)
+            .attr("fill", "none")
+            .attr("stroke", "red")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function (d) { return x(parseTime(d.refPeriod)); })
+                .y(function (d) { return y2(d.measureB); }))
+    }
 }
