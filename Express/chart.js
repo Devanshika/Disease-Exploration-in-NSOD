@@ -91,6 +91,26 @@ function getDiseaseID(disease) {
     return disease
 }
 
+function changeCheckboxes(selectVal, diseases) {
+    if (!selectVal) {
+        for (ix in checkedDiseases) {
+            idVal = checkedDiseases[ix]
+            document.getElementById(idVal).checked = false
+        }
+        checkedDiseases = []
+    }
+    else {
+        for (ix in diseases) {
+            disease = getDiseaseID(diseases[ix])
+            if (checkedDiseases.indexOf(disease) < 0) {
+                checkedDiseases.push(disease);
+                document.getElementById(disease).checked = true
+            }
+
+        }
+    }
+}
+
 function createDiseaseToggles(diseases) {
     diseaseToggles = document.getElementById("diseaseToggles")
     diseaseToggles.innerHTML = ""
@@ -99,6 +119,18 @@ function createDiseaseToggles(diseases) {
     bold.innerHTML = "Choose Disease Types"
     diseaseToggles.appendChild(para)
     para.appendChild(bold)
+    para2 = document.createElement('p');
+    diseaseToggles.appendChild(para2)
+    selectButton = document.createElement('button');
+    selectButton.classList.add("btn", "btn-secondary", "btn-sm");
+    selectButton.innerHTML = "Select All"
+    selectButton.addEventListener("click", () => changeCheckboxes(true, diseases))
+    para2.appendChild(selectButton)
+    deSelectButton = document.createElement('button');
+    deSelectButton.classList.add("btn", "btn-secondary", "btn-sm");
+    deSelectButton.innerHTML = "Deselect All"
+    deSelectButton.addEventListener("click", () => changeCheckboxes(false, diseases))
+    para2.appendChild(deSelectButton)
     for (ix in diseases) {
         let disease = getDiseaseID(diseases[ix])
         let label = document.createElement('label');
@@ -108,7 +140,7 @@ function createDiseaseToggles(diseases) {
         let checkbox = document.createElement('input');
         checkbox.type = "checkbox";
         checkbox.id = disease
-        let att = document.createAttribute("data-toggle");
+        let att = document.createAttribute("data-toggle")
         att.value = "toggle"
         checkbox.setAttributeNode(att)
         checkbox.addEventListener("click", () => diseaseToggled(disease))
@@ -123,24 +155,27 @@ function createDiseaseToggles(diseases) {
 
 function createGraph(data) {
     svg.selectAll("*").remove(); //remove previous graph
-    filtered_data = []
+    data_dict = {
+        "nodes": [],
+        "datasets": data.datasets,
+        "dimensions": data.dimensions,
+    }
     all_nodes = data.nodes
     for (ix in all_nodes) {
         let node = all_nodes[ix]
         diseases = node.Disease
         for (jx in diseases) {
             if (checkedDiseases.indexOf(getDiseaseID(diseases[jx])) >= 0) {
-                filtered_data.push(node)
+                data_dict.nodes.push(node)
                 break;
             }
         }
     }
-    data.nodes = filtered_data
     if (yearToggle.checked) //dimension year is primary
     {
         if (!ratePer100KToggle.checked && !noOfCasesToggle.checked) //make pie chart
         {
-            createPie(data, "refPeriod")
+            createPie(data_dict, "refPeriod")
         }
         else {
             measureA = null
@@ -158,14 +193,14 @@ function createGraph(data) {
                     measureA = "rateper100kpopulation"
                 }
             }
-            createLineGraphs(data, measureA, measureB)
+            createLineGraphs(data_dict, measureA, measureB)
         }
     }
     else if (areaToggle.checked) //dimension area is primary
     {
         if (!ratePer100KToggle.checked && !noOfCasesToggle.checked) //make pie chart
         {
-            createPie(data, "refArea")
+            createPie(data_dict, "refArea")
         }
         else {
             measureA = null
@@ -183,7 +218,7 @@ function createGraph(data) {
                     measureA = "rateper100kpopulation"
                 }
             }
-            createBarGraphs(data, measureA, measureB)
+            createBarGraphs(data_dict, measureA, measureB)
         }
     }
     else if (ratePer100KToggle.checked && noOfCasesToggle.checked) //dimension isn't set only measures are set
@@ -193,6 +228,7 @@ function createGraph(data) {
 }
 
 function createPie(data, dimension) {
+    document.getElementById("chartDescription").innerHTML = "This graph shows the distribution of all Observations in terms of " + (dimension == "refArea" ? "Area":"Year")
     var color = d3.scaleOrdinal(colorSchemes[dimension]);
     color.domain(data.dimensions[dimension])
     var pie = d3.pie()
@@ -259,7 +295,7 @@ function createPie(data, dimension) {
         .data(pieData)
         .enter()
         .append('text')
-        .text(function (d) { console.log(d.data.key); return d.data.key })
+        .text(function (d) { return d.data.value })
         .attr('transform', function (d) {
             var pos = outerArc.centroid(d);
             var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
@@ -270,22 +306,46 @@ function createPie(data, dimension) {
             var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
             return (midangle < Math.PI ? 'start' : 'end')
         })
+
+    var legendVal = svg.selectAll(".legend")
+        .data(pieData)
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+            return "translate(" + (width - 110) + "," + (i * 15 + 20) + ")";
+        })
+        .attr("class", "legend");
+
+        legendVal.append("rect")
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("fill", function (d,i) {
+            return (color(i))
+        });
+
+        legendVal.append("text")
+        .text(function (d) {
+            return d.data.key;
+        })
+        .style("font-size", 12)
+        .attr("y", 10)
+        .attr("x", 11);
 }
 
-function setMeasureVal(measure, node, dataDict) {
+function setMeasureVal(measure, node, dataDict, dimension, maxVal) {
     value = node[measure]
-    if (measure == "rateper100kpopulation") {
-
-        if (dataDict[node["refPeriod"]] < value) {
-            dataDict[node["refPeriod"]] = value
+    if (maxVal) {
+        if (dataDict[node[dimension]] < value) {
+            dataDict[node[dimension]] = value
         }
     }
-    else if (measure == "numberofcases") {
-        dataDict[node["refPeriod"]] += value
+    else {
+        dataDict[node[dimension]] += value
     }
 }
 
-function createLineGraphs(data, measureA, measureB = null) {
+function createLineGraphs(data, measureA, measureB = null) {    
+    document.getElementById("chartDescription").innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Average Number of Cases":"Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 20, bottom: 30, left: 50 },
         gWidth = width - margin.left - margin.right,
         gHeight = height - margin.top - margin.bottom;
@@ -311,9 +371,9 @@ function createLineGraphs(data, measureA, measureB = null) {
     nodes = data.nodes
     for (ix in nodes) {
         node = nodes[ix]
-        setMeasureVal(measureA, node, mA_values)
+        setMeasureVal(measureA, node, mA_values, "refPeriod")
         if (measureB != null) {
-            setMeasureVal(measureB, node, mB_values)
+            setMeasureVal(measureB, node, mB_values, "refPeriod", true)
         }
         year_total[node["refPeriod"]] += 1
     }
@@ -354,6 +414,19 @@ function createLineGraphs(data, measureA, measureB = null) {
             .x(function (d) { return x(parseTime(d.refPeriod)); })
             .y(function (d) { return y(d.measureA); }));
 
+    g.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", gWidth)
+        .attr("y", gHeight - 6)
+        .text("Year");
+
+    g.append("text")
+        .attr("text-anchor", "end")
+        .attr("y", 6)
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text(measureA == "numberofcases" ? "Average Number of Cases" : "Maximum Rate Per 100K Population");
+
     if (measureB != null) {
         var y2 = d3.scaleLinear()
             .domain([0, d3.max(graphData, function (d) { return +d.measureB; })])
@@ -362,6 +435,13 @@ function createLineGraphs(data, measureA, measureB = null) {
             .attr("stroke", "red")
             .attr("transform", "translate(" + gWidth + " ,0)")
             .call(d3.axisRight(y2));
+
+        g.append("text")
+            .attr("text-anchor", "end")
+            .attr("y", 6)
+            .attr("dy", ".75em")
+            .attr("transform", "translate(" + gWidth + " ,0)")
+            .text("Maximum Rate Per 100K Population");
         g.append("path")
             .datum(graphData)
             .attr("fill", "none")
@@ -374,5 +454,111 @@ function createLineGraphs(data, measureA, measureB = null) {
 }
 
 function createBarGraphs(data, measureA, measureB = null) {
+    document.getElementById("chartDescription").innerHTML = "This graph shows Area wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Maximum Number of Cases":"Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+    var margin = { top: 30, right: 20, bottom: 60, left: 60 },
+        gWidth = width - margin.left - margin.right,
+        gHeight = height - margin.top - margin.bottom;
+    g = svg
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    graphData = []
+    mA_values = {}
+    mB_values = {}
+    area_total = {}
+    unique_values = data.dimensions["refArea"]
+    for (ix in unique_values) {
+        value = unique_values[ix]
+        mA_values[value] = 0
+        mB_values[value] = 0
+        area_total[value] = 0
+    }
+    nodes = data.nodes
+    for (ix in nodes) {
+        node = nodes[ix]
+        setMeasureVal(measureA, node, mA_values, "refArea", true)
+        if (measureB != null) {
+            setMeasureVal(measureB, node, mB_values, "refArea", true)
+        }
+        area_total[node["refArea"]] += 1
+    }
+    for (key in mA_values) {
+        nodeDict = { "refArea": key, "measureA": mA_values[key] }
+        if (measureB != null) {
+            nodeDict["measureB"] = mB_values[key]
+        }
+        graphData.push(nodeDict);
+        var x = d3.scaleBand()
+            .range([0, gWidth])
+            .domain(unique_values)
+            .padding(0.2);
+
+
+        g
+            .append("g")
+            .attr("transform", "translate(0," + gHeight + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+
+        var y = d3.scaleLinear()
+            .domain([0, d3.max(graphData, function (d) { return d.measureA; })])
+            .range([gHeight, 0]);
+
+        g.append("g")
+            .attr("stroke", "steelblue")
+            .call(d3.axisLeft(y));
+        var graph = g.selectAll("barChart")
+            .data(graphData)
+            .enter()
+
+        graph
+            .append("rect")
+            .attr("x", function (d) { return x(d.refArea); })
+            .attr("y", function (d) { return y(d.measureA); })
+            .attr("width", x.bandwidth())
+            .attr("height", function (d) { return gHeight - y(d.measureA); })
+            .attr("fill", "steelblue")
+
+        g.append("text")
+            .attr("text-anchor", "end")
+            .attr("x", gWidth)
+            .attr("y", gHeight - 6)
+            .text("Area");
+
+        g.append("text")
+            .attr("text-anchor", "end")
+            .attr("y", 6)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text(measureA == "numberofcases" ? "Maximum Number of Cases" : "Maximim Rate Per 100K Population");
+        if (measureB != null) {
+            var x1 = d3.scaleBand()
+                .range([0, x.bandwidth()])
+                .domain([measureA, measureB])
+            var y2 = d3.scaleLinear()
+                .domain([0, d3.max(graphData, function (d) { return d.measureB; })])
+                .range([gHeight, 0]);
+            g.append("g")
+                .attr("stroke", "red")
+                .attr("transform", "translate(" + gWidth + " ,0)")
+                .call(d3.axisRight(y2));
+
+            g.append("text")
+                .attr("text-anchor", "end")
+                .attr("y", 6)
+                .attr("dy", ".75em")
+                .attr("transform", "translate(" + gWidth + " ,0)")
+                .text("Maximum Rate Per 100K Population");
+            graph
+                .append("rect")
+                .attr("x", function (d) { return x(d.refArea); })
+                .attr("y", function (d) { return y2(d.measureB); })
+                .attr("width", x1.bandwidth())
+                .attr("height", function (d) { return gHeight - y2(d.measureB); })
+                .attr("fill", "red")
+        }
+    }
 
 }

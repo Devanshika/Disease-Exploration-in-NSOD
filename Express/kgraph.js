@@ -265,6 +265,7 @@ createGraph = function (data, byDataset = false, bySearch = false) {
         color.domain(searchDomain);
         datasetBtn.disabled = false;
         datasourceBtn.disabled = false;
+        checkboxBtn.disabled = true;
     }
     var simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id(d => d.id))
