@@ -310,7 +310,7 @@ createGraph = function (data, byDataset = false, bySearch = false) {
 
     if (bySearch) {
 
-        var lables = node.append("text")
+        var label = node.append("text")
             .text(function (d) {
                 for (ix in d.relationships) {
                     relationship = d.relationships[ix];
