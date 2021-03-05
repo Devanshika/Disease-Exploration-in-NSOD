@@ -321,12 +321,17 @@ function getChartData(req, res, data) {
     for (ix in nodes) {
         node = nodes[ix]
         if (node.id.includes("obs-")) {
-            observation = { "id": node.id, "refArea": "All Areas", "refPeriod": "All Years", "numberofcases": 0, "rateper100kpopulation": 0, "dataset": node.dataset }
+            observation = { "id": node.id, "refArea": "All Areas", "refPeriod": "All Years", "numberofcases": 0, "rateper100kpopulation": 0, "dataset": node.dataset, "Disease": [] }
             relationships = node.relationships
             for (jx in relationships) {
                 relationship = relationships[jx]
                 if (relationship.predicate in observation) {
-                    observation[relationship.predicate] = relationship.object
+                    if (relationship.predicate == "Disease") {
+                        observation[relationship.predicate].push(relationship.object)
+                    }
+                    else {
+                        observation[relationship.predicate] = relationship.object
+                    }
                 }
             }
             front_data.push(observation)
@@ -514,6 +519,14 @@ async function launchApplication() {
                         }
                     }
                 }
+                if (dimensionVal in uniqueDimensionValues) {
+                    if (uniqueDimensionValues[dimensionVal].indexOf(relationship.object) < 0) {
+                        uniqueDimensionValues[dimensionVal].push(relationship.object);
+                    }
+                }
+            }
+            else if (relationship.predicate.includes("Disease")) {
+                dimensionVal = "hasdisease"
                 if (dimensionVal in uniqueDimensionValues) {
                     if (uniqueDimensionValues[dimensionVal].indexOf(relationship.object) < 0) {
                         uniqueDimensionValues[dimensionVal].push(relationship.object);

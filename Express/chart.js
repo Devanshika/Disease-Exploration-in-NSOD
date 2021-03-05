@@ -14,6 +14,8 @@ radius = Math.min(width, height) / 2;
 var svg = d3.select("#dataCharts").append("svg")
     .attr("width", width).attr("height", height);
 
+var checkedDiseases = []
+
 var colorSchemes = {
     "refArea": [
         "#90d911",
@@ -53,22 +55,87 @@ function toggleView() {
         yearToggle.disabled = false
     }
 }
-
+getChartBtn.disabled = true
 function getDataFromServer() {
     fetch("/getChartData", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: "" })
         .then(response => response.json())
         .then(function (response) {
             if (response.ok) {
                 let data = response.data
+                createDiseaseToggles(data.dimensions["hasdisease"])
                 getChartBtn.addEventListener("click", () => createGraph(data))
+                getChartBtn.disabled = false
             }
         }).catch(function (error) {
             console.log(error);
         });
 }
 
+function diseaseToggled(disease) {
+    if (document.getElementById(disease).checked) {
+        if (checkedDiseases.indexOf(disease) < 0) {
+            checkedDiseases.push(disease);
+        }
+    }
+    else {
+        pos = checkedDiseases.indexOf(disease)
+        if (pos >= 0) {
+            checkedDiseases.splice(pos, 1)
+        }
+    }
+}
+
+function getDiseaseID(disease) {
+    disease = disease.toLowerCase()
+    disease = disease.replace(/\s/g, '')
+    return disease
+}
+
+function createDiseaseToggles(diseases) {
+    diseaseToggles = document.getElementById("diseaseToggles")
+    diseaseToggles.innerHTML = ""
+    para = document.createElement('p');
+    bold = document.createElement('b');
+    bold.innerHTML = "Choose Disease Types"
+    diseaseToggles.appendChild(para)
+    para.appendChild(bold)
+    for (ix in diseases) {
+        let disease = getDiseaseID(diseases[ix])
+        let label = document.createElement('label');
+        label.classList.add("checkbox"); //add bootstrap class
+        diseaseToggles.appendChild(label);
+        diseaseToggles.appendChild(document.createElement('br'));
+        let checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.id = disease
+        let att = document.createAttribute("data-toggle");
+        att.value = "toggle"
+        checkbox.setAttributeNode(att)
+        checkbox.addEventListener("click", () => diseaseToggled(disease))
+        let att2 = document.createAttribute("checked");
+        att2.value = true
+        checkbox.setAttributeNode(att2)
+        checkedDiseases.push(disease)
+        label.appendChild(checkbox)
+        label.appendChild(document.createTextNode(diseases[ix]))
+    }
+}
+
 function createGraph(data) {
     svg.selectAll("*").remove(); //remove previous graph
+    filtered_data = []
+    all_nodes = data.nodes
+    for (ix in all_nodes) {
+        let node = all_nodes[ix]
+        diseases = node.Disease
+        for (jx in diseases) {
+            if (checkedDiseases.indexOf(getDiseaseID(diseases[jx])) >= 0) {
+                filtered_data.push(node)
+                break;
+            }
+        }
+    }
+    data.nodes = filtered_data
     if (yearToggle.checked) //dimension year is primary
     {
         if (!ratePer100KToggle.checked && !noOfCasesToggle.checked) //make pie chart
@@ -101,14 +168,22 @@ function createGraph(data) {
             createPie(data, "refArea")
         }
         else {
-            if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
-            {
-
-            }
+            measureA = null
+            measureB = null
             if (noOfCasesToggle.checked) // make trace for noOfCasesToggle
             {
-
+                measureA = "numberofcases"
             }
+            if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
+            {
+                if (measureA != null) {
+                    measureB = "rateper100kpopulation"
+                }
+                else {
+                    measureA = "rateper100kpopulation"
+                }
+            }
+            createBarGraphs(data, measureA, measureB)
         }
     }
     else if (ratePer100KToggle.checked && noOfCasesToggle.checked) //dimension isn't set only measures are set
@@ -253,15 +328,6 @@ function createLineGraphs(data, measureA, measureB = null) {
         }
         graphData.push(nodeDict);
     }
-    // for (ix in nodes) {
-    //     node = nodes[ix]
-    //     nodeDict = { "refPeriod": node["refPeriod"], "measureA": node[measureA] }
-    //     if (measureB != null) {
-    //         nodeDict["measureB"] = node[measureB]
-    //     }
-    //     graphData.push(nodeDict)
-    // }
-
     var x = d3.scaleTime()
         .domain(d3.extent(graphData, function (d) { return parseTime(d.refPeriod); }))
         .range([0, gWidth]);
@@ -305,4 +371,8 @@ function createLineGraphs(data, measureA, measureB = null) {
                 .x(function (d) { return x(parseTime(d.refPeriod)); })
                 .y(function (d) { return y2(d.measureB); }))
     }
+}
+
+function createBarGraphs(data, measureA, measureB = null) {
+
 }
