@@ -3,6 +3,8 @@ areaToggle = document.getElementById("areaToggle")
 noOfCasesToggle = document.getElementById("noOfCasesToggle")
 ratePer100KToggle = document.getElementById("ratePer100KToggle")
 getChartBtn = document.getElementById("getChartBtn")
+chartTitle = document.getElementById("chartTitle")
+chartDescription = document.getElementById("chartDescription")
 
 yearToggle.addEventListener("click", () => toggleView())
 areaToggle.addEventListener("click", () => toggleView())
@@ -221,14 +223,10 @@ function createGraph(data) {
             createBarGraphs(data_dict, measureA, measureB)
         }
     }
-    else if (ratePer100KToggle.checked && noOfCasesToggle.checked) //dimension isn't set only measures are set
-    {
-
-    }
 }
 
 function createPie(data, dimension) {
-    document.getElementById("chartDescription").innerHTML = "This graph shows the distribution of all Observations in terms of " + (dimension == "refArea" ? "Area" : "Year")
+    chartDescription.innerHTML = "This graph shows the distribution of all Observations in terms of " + (dimension == "refArea" ? "Area" : "Year")
     var color = d3.scaleOrdinal(colorSchemes[dimension]);
     color.domain(data.dimensions[dimension])
     var pie = d3.pie()

@@ -142,9 +142,9 @@ function getObjectValue(object) {
 }
 
 function isNumeric(str) {
-    if (typeof str != "string") return false // we only process strings!  
-    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-        !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    if (typeof str != "string") return false   
+    return !isNaN(str) && 
+        !isNaN(parseFloat(str))
 }
 
 function correctOntologyLink(value) {
@@ -154,6 +154,36 @@ function correctOntologyLink(value) {
         }
     }
     return value;
+}
+
+function filterByDimension(value, dimension, data, joinedNodes) {
+    data_copy = { //create a copy
+        "nodes": [],
+        "links": [],
+        "ontologylist": data.ontologyList,
+        "datasets": data.datasets,
+        "dimensions": data.dimensions,
+        "measures": data.measures
+    };
+    node_object = {}
+    all_nodes = data.nodes;
+    for (ix in all_nodes) {
+        node = all_nodes[ix];
+        relationships = node.relationships;
+        for (ix in relationships) {//loop through and compare
+            relationship = relationships[ix];
+            if (relationship.predicate.includes(dimension)) {
+                if (value == relationship.object) {
+                    node_object[node.id] = node;
+                    node_object[node.id].search = "Data";
+                    break;
+                }
+            }
+        }
+    }
+    all_links = data.links;
+    get_linked_data(node_object, all_links, data_copy, joinedNodes)
+    return data_copy
 }
 
 // function filterByDiseases(req, res, data, joinedNodes) {
