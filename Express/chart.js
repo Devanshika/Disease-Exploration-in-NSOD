@@ -144,6 +144,7 @@ function createDiseaseToggles(diseases, diseaseLinks) {
         label.appendChild(checkbox)
         let linkval = document.createElement('a')
         linkval.href = diseaseLinks[ix]
+        linkval.target = "_blank"
         linkval.innerHTML = diseases[ix]
         label.appendChild(linkval)
     }
