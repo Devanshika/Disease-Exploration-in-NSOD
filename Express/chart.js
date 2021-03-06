@@ -55,7 +55,7 @@ function getDataFromServer() {
         .then(function (response) {
             if (response.ok) {
                 let data = response.data
-                createDiseaseToggles(data.dimensions["hasdisease"])
+                createDiseaseToggles(data.dimensions["hasdisease"], data.diseaseLinks)
                 getChartBtn.addEventListener("click", () => createGraph(data))
                 getChartBtn.disabled = false
             }
@@ -104,7 +104,7 @@ function changeCheckboxes(selectVal, diseases) {
     }
 }
 
-function createDiseaseToggles(diseases) {
+function createDiseaseToggles(diseases, diseaseLinks) {
     diseaseToggles = document.getElementById("diseaseToggles")
     diseaseToggles.innerHTML = ""
     para = document.createElement('p');
@@ -142,7 +142,10 @@ function createDiseaseToggles(diseases) {
         checkbox.setAttributeNode(att2)
         checkedDiseases.push(disease)
         label.appendChild(checkbox)
-        label.appendChild(document.createTextNode(diseases[ix]))
+        let linkval = document.createElement('a')
+        linkval.href = diseaseLinks[ix]
+        linkval.innerHTML = diseases[ix]
+        label.appendChild(linkval)
     }
 }
 
@@ -231,7 +234,7 @@ function createGraph(data) {
 }
 
 function createPie(data, dimension) {
-    chartTitle.innerHTML = (dimension == "refArea" ? "Area" : "Year") + " Pie Chart Showing Distribution of Disease Cases"
+    chartTitle.innerHTML = "Pie Chart Showing Distribution of Disease Cases By " + (dimension == "refArea" ? "Area" : "Year")
     chartDescription.innerHTML = "This graph shows the distribution of number of cases of all Observations in terms of " + (dimension == "refArea" ? "Area" : "Year")
     var color = d3.scaleOrdinal(colorSchemes[dimension]);
     color.domain(data.dimensions[dimension])

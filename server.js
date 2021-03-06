@@ -142,8 +142,8 @@ function getObjectValue(object) {
 }
 
 function isNumeric(str) {
-    if (typeof str != "string") return false   
-    return !isNaN(str) && 
+    if (typeof str != "string") return false
+    return !isNaN(str) &&
         !isNaN(parseFloat(str))
 }
 
@@ -340,11 +340,12 @@ function getByDataset(req, res, data) {
     });
 }
 
-function getChartData(req, res, data) {
+function getChartData(req, res, data, diseaseLinks) {
     data_dict = {
         "nodes": null,
         "datasets": data.datasets,
         "dimensions": data.dimensions,
+        "diseaseLinks": []
     }
     front_data = []
     nodes = data.nodes
@@ -367,6 +368,21 @@ function getChartData(req, res, data) {
             front_data.push(observation)
         }
     }
+
+    var diseaseDim = data.dimensions["hasdisease"]
+    for (ix in diseaseDim) {
+        var curDisVal = diseaseDim[ix]
+        for (linkval in diseaseLinks) {
+            var curVal = diseaseLinks[linkval]
+            if(curDisVal == curVal.name)
+            {
+                let doidlink = linkval
+                data_dict.diseaseLinks.push(doidlink)
+                break;
+            }
+        }
+    }
+
     data_dict.nodes = front_data
     return res.status(200).json({
         ok: true,
@@ -599,7 +615,8 @@ async function launchApplication() {
     });
     app.post("/getChartData", (req, res) => {
         let data_copy = data
-        return getChartData(req, res, data_copy);
+        let diseaseInfo = parsedDiseaseInfo
+        return getChartData(req, res, data_copy, diseaseInfo);
     });
     /**
      * Server Activation

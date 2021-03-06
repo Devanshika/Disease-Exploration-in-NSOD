@@ -75,6 +75,10 @@
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li class="nav-item nav_padded">
+              <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#diseaseHierarchy">Show
+                Disease Heirarchy</button>
+            </li>
+            <li class="nav-item nav_padded">
               <p><b>Choose Dimension</b></p>
               <label class="checkbox">
                 <input type="checkbox" data-toggle="toggle" id="yearToggle"> Year
@@ -117,6 +121,29 @@
         <!-- <p id="debug" class="my-4 w-100"></p> -->
       </main>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="diseaseHierarchy" role="dialog">
+      <div class="modal-dialog modal-xl">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">Disease Categories</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <img src="/disease_hierarchy.png" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
