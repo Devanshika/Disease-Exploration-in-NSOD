@@ -358,10 +358,10 @@ function setMeasureVal(measure, node, dataDict, dimension, maxVal) {
 }
 
 function getGraphDataByDisease(data, measureA, measureB, areaVal, disease = null) {
-    graphData = []
-    mA_values = {}
-    mB_values = {}
-    unique_values = data.dimensions["refPeriod"]
+    var graphData = []
+    var mA_values = {}
+    var mB_values = {}
+    var unique_values = data.dimensions["refPeriod"]
     for (ix in unique_values) {
         value = unique_values[ix]
         mA_values[value] = 0
@@ -447,13 +447,13 @@ function createAreawiseLineGraphs(data, measureA, measureB = null, diseaseMode) 
     graphHeight = height
     curLeftVal = margin.left
     for (ix in unique_area_vals) {
-        areaVal = unique_area_vals[ix]
+        let areaVal = unique_area_vals[ix]
         let tooltipInst = tooltip
         if (areaVal === "Alberta") {
             tooltipInst = tooltip2
         }
         if (diseaseMode) {
-            let graphData = getGraphData(data, measureA, measureB, null, true)
+            let graphData = getGraphData(data, measureA, measureB, areaVal, true)
             createDiseaseLineGraphs(graphData, checkedDiseases[0], checkedDiseases[1], getDiseaseListFromData(data), margin, graphWidth, graphHeight, curLeftVal, margin.top, tooltipInst, areaVal)
         }
         else {
