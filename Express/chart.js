@@ -178,7 +178,11 @@ function createGraph(data) {
         {
             measureA = "numberofcases"
         }
-        if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
+        if (!ratePer100KToggle.checked && checkedDiseases.length == 2) {
+            createAreawiseLineGraphs(data_dict, measureA, measureB, true)
+            return;
+        }
+        else if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
         {
             if (measureA != null) {
                 measureB = "rateper100kpopulation"
@@ -202,8 +206,11 @@ function createGraph(data) {
             {
                 measureA = "numberofcases"
             }
-            if (ratePer100KToggle.checked) // make trace for ratePer100KToggle
-            {
+            if (!ratePer100KToggle.checked && checkedDiseases.length == 2) {
+                createLineGraphs(data_dict, measureA, measureB, true)
+                return;
+            }
+            else if (ratePer100KToggle.checked) {
                 if (measureA != null) {
                     measureB = "rateper100kpopulation"
                 }
@@ -224,7 +231,7 @@ function createGraph(data) {
 }
 
 function createPie(data, dimension) {
-    chartTitle.innerHTML = (dimension == "refArea" ? "Area" : "Year") + " Pie Chart"
+    chartTitle.innerHTML = (dimension == "refArea" ? "Area" : "Year") + " Pie Chart Showing Distribution of Disease Cases"
     chartDescription.innerHTML = "This graph shows the distribution of number of cases of all Observations in terms of " + (dimension == "refArea" ? "Area" : "Year")
     var color = d3.scaleOrdinal(colorSchemes[dimension]);
     color.domain(data.dimensions[dimension])
@@ -346,18 +353,16 @@ function setMeasureVal(measure, node, dataDict, dimension, maxVal) {
     }
 }
 
-function getGraphData(data, measureA, measureB, areaVal = null) {
+function getGraphDataByDisease(data, measureA, measureB, areaVal, disease = null) {
     graphData = []
     mA_values = {}
     mB_values = {}
-    year_total = {}
     unique_values = data.dimensions["refPeriod"]
     for (ix in unique_values) {
         value = unique_values[ix]
         mA_values[value] = 0
         mB_values[value] = 0
     }
-
     nodes = data.nodes
     for (ix in nodes) {
         node = nodes[ix]
@@ -366,15 +371,30 @@ function getGraphData(data, measureA, measureB, areaVal = null) {
                 continue;
             }
         }
+        if (disease != null) {
+            diseases = node.Disease
+            hasdisease = false
+            for (jx in diseases) {
+                disVal = diseases[jx]
+                if (disease == getDiseaseID(disVal)) {
+                    hasdisease = true
+                    break;
+                }
+            }
+            if (!hasdisease) {
+                continue;
+            }
+        }
         setMeasureVal(measureA, node, mA_values, "refPeriod", measureA != "numberofcases")
         if (measureB != null) {
             setMeasureVal(measureB, node, mB_values, "refPeriod", true)
         }
-        year_total[node["refPeriod"]] += 1
     }
-
+    if (disease == null) {
+        disease = ""
+    }
     for (key in mA_values) {
-        nodeDict = { "refPeriod": key, "measureA": mA_values[key] }
+        nodeDict = { "refPeriod": key, "measureA": mA_values[key], "diseaseType": disease }
 
         if (measureB != null) {
             nodeDict["measureB"] = mB_values[key]
@@ -384,9 +404,38 @@ function getGraphData(data, measureA, measureB, areaVal = null) {
     return graphData
 }
 
-function createAreawiseLineGraphs(data, measureA, measureB = null) {
-    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
-    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations divided by Area. The measures against this dimension are " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+function getGraphData(data, measureA, measureB, areaVal = null, diseaseMode = false) {
+    var graphData = []
+    if (!diseaseMode) {
+        return getGraphDataByDisease(data, measureA, measureB, areaVal)
+    }
+    for (ix in checkedDiseases) {
+        let disease = checkedDiseases[ix]
+        graphData = graphData.concat(getGraphDataByDisease(data, measureA, measureB, areaVal, disease))
+    }
+    var newData = {}
+    for (ix in graphData) {
+        first_dict = graphData[ix]
+        var new_dict_format = null
+        if (first_dict.refPeriod in newData) {
+            new_dict_format = newData[first_dict.refPeriod]
+        }
+        else {
+            new_dict_format = { "refPeriod": first_dict.refPeriod }
+        }
+        new_dict_format[first_dict["diseaseType"]] = first_dict.measureA
+        newData[first_dict.refPeriod] = new_dict_format
+    }
+    graphData = []
+    for (key in newData) {
+        graphData.push(newData[key])
+    }
+    return graphData
+}
+
+function createAreawiseLineGraphs(data, measureA, measureB = null, diseaseMode) {
+    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
+    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations divided by Area. The measures against this dimension are " + (measureA == "numberofcases" ? "Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 50, bottom: 30, left: 50 }
 
     unique_area_vals = data.dimensions["refArea"]
@@ -395,12 +444,18 @@ function createAreawiseLineGraphs(data, measureA, measureB = null) {
     curLeftVal = margin.left
     for (ix in unique_area_vals) {
         areaVal = unique_area_vals[ix]
-        let graphData = getGraphData(data, measureA, measureB, areaVal)
         let tooltipInst = tooltip
         if (areaVal === "Alberta") {
             tooltipInst = tooltip2
         }
-        createLineGraph(graphData, measureA, measureB, margin, graphWidth, graphHeight, curLeftVal, margin.top, tooltipInst, areaVal)
+        if (diseaseMode) {
+            let graphData = getGraphData(data, measureA, measureB, null, true)
+            createDiseaseLineGraphs(graphData, checkedDiseases[0], checkedDiseases[1], getDiseaseListFromData(data), margin, graphWidth, graphHeight, curLeftVal, margin.top, tooltipInst, areaVal)
+        }
+        else {
+            let graphData = getGraphData(data, measureA, measureB, areaVal)
+            createLineGraph(graphData, measureA, measureB, margin, graphWidth, graphHeight, curLeftVal, margin.top, tooltipInst, areaVal)
+        }
         curLeftVal += graphWidth
     }
 
@@ -443,7 +498,7 @@ function createLineGraph(graphData, measureA, measureB = null, margin, widthVal,
     var tooltipMeasureA = tooltipInst.append("div");
     tooltipMeasureA.append("span")
         .attr("class", "tooltip-title")
-        .text((measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + ": ");
+        .text((measureA == "numberofcases" ? "Number of Cases" : "Maximum Rate per 100K Population") + ": ");
 
     var tooltipMeasureAValue = tooltipInst.append("span")
         .attr("id", "measureATooltip")
@@ -538,7 +593,7 @@ function createLineGraph(graphData, measureA, measureB = null, margin, widthVal,
         .attr("y", 6)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .text(measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate Per 100K Population");
+        .text(measureA == "numberofcases" ? "Number of Cases" : "Maximum Rate Per 100K Population");
 
     if (measureB != null) {
         y2 = d3.scaleLinear()
@@ -567,11 +622,191 @@ function createLineGraph(graphData, measureA, measureB = null, margin, widthVal,
 
 }
 
-function createLineGraphs(data, measureA, measureB = null) {
-    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
-    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Total Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
+function createLineGraphs(data, measureA, measureB = null, diseaseMode = false) {
+    chartTitle.innerHTML = "Year vs " + (measureA == "numberofcases" ? "Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population") + " Line Chart"
+    chartDescription.innerHTML = "This graph shows Year wise distribution of all Observations. The measures against this dimension are " + (measureA == "numberofcases" ? "Number of Cases" : "Maximum Rate per 100K Population") + (measureB == null ? "" : "and Maximum Rate per 100K Population");
     var margin = { top: 30, right: 20, bottom: 30, left: 50 }
+    if (diseaseMode) {
+        let graphData = getGraphData(data, measureA, measureB, null, true)
+        createDiseaseLineGraphs(graphData, checkedDiseases[0], checkedDiseases[1], getDiseaseListFromData(data), margin, width, height, margin.left, margin.top, tooltip)
+    }
+    else {
+        let graphData = getGraphData(data, measureA, measureB)
+        createLineGraph(graphData, measureA, measureB, margin, width, height, margin.left, margin.top, tooltip)
+    }
+}
 
-    let graphData = getGraphData(data, measureA, measureB)
-    createLineGraph(graphData, measureA, measureB, margin, width, height, margin.left, margin.top, tooltip)
+function getDiseaseListFromData(data) {
+    var listOfDiseases = []
+    for (ix in checkedDiseases) {
+        var diseaseToCheck = checkedDiseases[ix]
+        var diseaseFound = false
+        for (jx in data.nodes) {
+            node = data.nodes[jx]
+            for (kx in node.Disease) {
+                var curDis = node.Disease[kx]
+                if (diseaseToCheck == getDiseaseID(curDis)) {
+                    listOfDiseases.push(curDis)
+                    diseaseFound = true
+                    break;
+                }
+            }
+            if (diseaseFound) {
+                break;
+            }
+        }
+    }
+    return listOfDiseases
+}
+
+function createDiseaseLineGraphs(graphData, diseaseOneVal, diseaseTwoVal, listOfDiseases, margin, widthVal, heightVal, posLeft, posTop, tooltipInst, title = "All Areas") {
+    g = svg.append("g")
+        .attr("width", widthVal)
+        .attr("height", heightVal)
+        .attr("transform", "translate(" + posLeft + "," + posTop + ")");
+    g.append("text")
+        .attr("x", (widthVal / 2))
+        .attr("y", 0 - (posTop / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("text-decoration", "underline")
+        .text(title);
+    gWidth = widthVal - margin.left - margin.right,
+        gHeight = heightVal - margin.top - margin.bottom;
+    var parseTime = d3.timeParse("%Y");
+    var bisectDate = d3.bisector(function (d) { return parseTime(d.refPeriod); }).left
+    var focus = g.append("g")
+        .attr("class", "focusA")
+        .style("opacity", 0);
+
+    focus.append("circle")
+        .attr("r", 5);
+
+    var focusB = g.append("g").attr("class", "focusB")
+        .style("opacity", 0);
+
+    focusB.append("circle").attr("r", 5);
+
+    var tooltipYear = tooltipInst.append("div")
+        .attr("class", "tooltip-date");
+
+    var tooltipMeasureA = tooltipInst.append("div");
+    tooltipMeasureA.append("span")
+        .attr("class", "tooltip-title")
+        .text("Number of Cases of " + listOfDiseases[0] + ": ");
+
+    var tooltipMeasureAValue = tooltipInst.append("span")
+        .attr("id", "measureATooltip")
+        .attr("class", "tooltip-measure");
+
+    let tooltipMeasureB = tooltipInst.append("div");
+    tooltipMeasureB.append("span")
+        .attr("class", "tooltip-title")
+        .text("Number of Cases of " + listOfDiseases[1] + ": ");
+    let tooltipMeasureBValue = tooltipMeasureB.append("span")
+        .attr("id", "measureBTooltip")
+        .attr("class", "tooltip-measure");
+
+
+    g.append("rect")
+        .attr("class", "overlay")
+        .attr("width", gWidth)
+        .attr("height", gHeight)
+        .on("mouseover", function () {
+            focus.style("opacity", 1);
+            tooltipInst.style("opacity", 1);
+
+            focusB.style("opacity", 1);
+        })
+        .on("mouseout", function () {
+            focus.style("opacity", 0);
+            tooltipInst.style("opacity", 0);
+            focusB.style("opacity", 0);
+        })
+        .on("mousemove", mousemovenext)
+
+    function mousemovenext(ev) {
+        var x0 = x.invert(d3.pointer(ev)[0]),
+            i = bisectDate(graphData, x0, 1),
+            d0 = graphData[i - 1],
+            d1 = graphData[i],
+            d = x0 - parseTime(d0.refPeriod) > parseTime(d1.refPeriod) - x0 ? d1 : d0;
+        focus.attr("transform", "translate(" + x(parseTime(d.refPeriod)) + "," + y(d[diseaseOneVal]) + ")");
+        tooltipInst.style("left", (x(parseTime(d.refPeriod)) + 200 + posLeft) + "px");
+        tooltipInst.style("top", y(d[diseaseOneVal]) + "px")
+        tooltipYear.text(d.refPeriod);
+        tooltipMeasureAValue.text(d[diseaseOneVal]);
+        tooltipMeasureBValue.text(d[diseaseTwoVal]);
+        focusB.attr("transform", "translate(" + x(parseTime(d.refPeriod)) + "," + y(d[diseaseTwoVal]) + ")")
+    }
+
+    var x = d3.scaleTime()
+        .domain(d3.extent(graphData, function (d) { return parseTime(d.refPeriod); }))
+        .range([0, gWidth]);
+
+    g
+        .append("g")
+        .attr("transform", "translate(0," + gHeight + ")")
+        .call(d3.axisBottom(x));
+
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(graphData, function (d) { return Math.max(d[diseaseOneVal], d[diseaseTwoVal]); })])
+        .range([gHeight, 0]);
+
+    g.append("g")
+        .attr("stroke", "steelblue")
+        .call(d3.axisLeft(y));
+
+    g.append("path")
+        .datum(graphData)
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("fill", "none")
+        .attr("d", d3.line()
+            .x(function (d) { return x(parseTime(d.refPeriod)); })
+            .y(function (d) { return y(d[diseaseOneVal]); }));
+
+    g.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", gWidth)
+        .attr("y", gHeight - 6)
+        .text("Year");
+
+    g.append("text")
+        .attr("text-anchor", "end")
+        .attr("y", 6)
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text("Number of Cases");
+
+    g.append("path")
+        .datum(graphData)
+        .attr("stroke", "red")
+        .attr("stroke-width", 1.5)
+        .attr("fill", "none")
+        .attr("d", d3.line()
+            .x(function (d) { return x(parseTime(d.refPeriod)); })
+            .y(function (d) { return y(d[diseaseTwoVal]); }));
+
+    var legendColor = d3.scaleOrdinal().domain(listOfDiseases).range(["steelblue", "red"])
+
+    var legend = svg.selectAll(".legend")
+        .data(legendColor.domain())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });//create a legend
+
+    legend.append("rect")
+        .attr("x", width - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", legendColor);
+
+    legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function (d) { return d; });
+
 }
